@@ -1,0 +1,116 @@
+﻿@model HRMMVC.Models.JobExperience
+
+@{
+    ViewBag.Title = "Job Experience";
+}
+<div class="col-md-10">
+    <div class="card">
+        <div class="card-header">
+            Add Job Experience for : @ViewBag.Employee
+        </div>
+        <div class="card-body">
+
+            @if (ViewBag.Jobs != null)
+            {
+                <table border="1" class="table table-bordered">
+                    @{
+                        int k = 0;
+                    }
+                    <thead>
+                        <tr>
+                            <th>Sl</th>
+                            <th>Position</th>
+                            <th>Company/ Org.</th>
+                            <th>Duties</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.Jobs as IEnumerable<HRMMVC.Models.JobExperience>)
+                        {
+                            k += 1;
+                            <tr>
+                                <td>@k</td>
+                                <td>@item.Designation</td>
+                                <td>@item.Company_Name</td>
+                                <td> @item.Responsiblity</td>
+                                <td>@item.FromDate.ToString("dd-MMM-yyyy") </td>
+                                <td>@{ var to = item.ToDate?.ToString("dd-MMM-yyyy") ?? "till";} @to</td>
+                                <td><a href="/Employees/Removeitem?EmpId=@ViewBag.Id&type=Job&id=@item.Id" class="btn btn-sm btn-danger loadPartial">Remove</a></td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+
+            }
+        </div>
+
+
+        <div class="card-body">
+
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Company_Name, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Company_Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Company Name" } })
+                    @Html.ValidationMessageFor(model => model.Company_Name, "", new { @class = "text-danger" })
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Designation, htmlAttributes: new { @class = "control-label" })
+
+                    @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control", @placeholder = "Designation" } })
+                    @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Responsiblity, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Responsiblity, new { htmlAttributes = new { @class = "form-control", @placeholder = "Duties" } })
+                    @Html.ValidationMessageFor(model => model.Responsiblity, "", new { @class = "text-danger" })
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FromDate, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.ToDate, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { @class = "form-control" } })
+                    <label>   <input type="checkbox" id="stillworking" value="working" /> Currently Working</label>
+
+                    @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
+
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                </div>
+                <input type="hidden" name="Id" value="@ViewBag.Id" />
+
+                <div class="clearfix">
+                    <a href="/Employees/Details?id=@ViewBag.Id" class="btn btn-sm btn-secondary loadPartial">Details</a>
+                    <input type="submit" value="Submit" class="btn btn-primary float-right" />
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+<div id="javascript" data-function="EmployeeJobExperience"></div>

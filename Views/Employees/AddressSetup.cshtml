@@ -1,0 +1,86 @@
+﻿@model HRMMVC.Models.AddressBook
+
+@{
+    ViewBag.Title = "Address Book";
+       
+}
+<div class="card">
+    <div class="card-body">
+
+
+        @if (ViewBag.Address != null)
+        {
+            <table border="1" class="table table-bordered">
+                <tbody>
+                    @foreach (var item in ViewBag.Address as IEnumerable<HRMMVC.Models.AddressBook>)
+                    {
+                        <tr> <th colspan="2" class="text-center"> <strong>@item.Type</strong></th></tr>
+                        <tr><th>Division</th> <td>@item.Division</td></tr>
+                        <tr><th>District</th> <td>@item.District</td></tr>
+                        <tr><th>Police Station</th> <td>@item.Police_Station</td></tr>
+                        <tr><th>Postal Code</th> <td>@item.Postal_Code</td></tr>
+                        <tr><th> Street Address</th> <td>@item.Street_Address</td></tr>
+                        <tr><td colspan="2" class="text-center"> <a href="/Employees/Removeitem?EmpId=@ViewBag.Id&type=Address&id=@item.Id" class="btn btn-sm btn-danger loadPartial">Remove </a> </td></tr>
+                    }
+                </tbody>
+            </table>
+
+        }
+    </div>
+
+    <fieldset>
+        <legend>Add New For  @ViewBag.Employee</legend>
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+        {
+
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="col-md-10 offset-md-1">
+                <div class="d-md-flex">
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.Type, new { htmlAttributes = new { @class = "form-control", @placeholder = "Present / Permanent / Other" } })
+                        @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-3">
+
+                        @Html.EditorFor(model => model.Division, new { htmlAttributes = new { @class = "form-control", @placeholder = "Division" } })
+                        @Html.ValidationMessageFor(model => model.Division, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-3">
+                        @Html.EditorFor(model => model.District, new { htmlAttributes = new { @class = "form-control", @placeholder = "District" } })
+                        @Html.ValidationMessageFor(model => model.District, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-3">
+
+                        @Html.EditorFor(model => model.Police_Station, new { htmlAttributes = new { @class = "form-control", @placeholder = "Police Station" } })
+                        @Html.ValidationMessageFor(model => model.Police_Station, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="d-md-flex mt-2">
+                    <div class="col-md-3">
+                        @*@Html.LabelFor(model => model.Postal_Code, htmlAttributes: new { @class = "control-label" })*@
+                        @Html.EditorFor(model => model.Postal_Code, new { htmlAttributes = new { @class = "form-control", @placeholder = "Postal Code" } })
+                        @Html.ValidationMessageFor(model => model.Postal_Code, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-md-9">
+                        @*@Html.LabelFor(model => model.Street_Address, htmlAttributes: new { @class = "control-label" })*@
+                        @Html.EditorFor(model => model.Street_Address, new { htmlAttributes = new { @class = "form-control", @placeholder = "Streed Address" } })
+                        @Html.ValidationMessageFor(model => model.Street_Address, "", new { @class = "text-danger" })
+                    </div>
+                    <input type="hidden" name="Id" value="@ViewBag.Id" />
+                </div>
+                <div class="clearfix">
+
+                    <a href="/Employees/Details?id=@ViewBag.Id" class="btn btn-sm btn-secondary loadPartial">Details</a>   
+                    <input type="submit" value="Submit" class="btn btn-primary float-right" />
+                </div>
+            </div>
+        }
+    </fieldset>
+</div>
+

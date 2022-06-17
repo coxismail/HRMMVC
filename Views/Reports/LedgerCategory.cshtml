@@ -1,0 +1,59 @@
+﻿@model IEnumerable<HRMMVC.Models.LedgerListReport>
+@{ 
+    int i = 0;
+}
+<page size="A4" class="p-3">
+    @Html.Partial("ReportHeader")
+    <table id="ledgercategoryTable" class="table table-bordered">
+        <thead class="">
+            <tr class="">
+                <th rowspan="2" style="width:40px;">SL No.</th>
+                <th rowspan="2" class="text-center">Particular</th>
+                <th colspan="2" class="text-center">Opening</th>
+                <th colspan="2" class="text-center">Transaction</th>
+                <th colspan="2" class="text-center">Closing</th>
+            </tr>
+            <tr class="">
+                <th class="text-center">Debit</th>
+                <th class="text-center">Credit</th>
+                <th class="text-center">Debit</th>
+                <th class="text-center">Credit</th>
+                <th class="text-center">Debit</th>
+                <th class="text-center">Credit</th>
+            </tr>
+        </thead>
+        <tbody class="report-body">
+
+            @foreach (var item in Model)
+            {
+                i += 1;
+                <tr>
+                    <td class="text-center">@i</td>
+                    <td>@item.LedgerName</td>
+                    <td class="text-right">@item.OpeningDebit</td>
+                    <td class="text-right">@item.OpeningCredit</td>
+                    <td class="text-right">@item.DebitAmount</td>
+                    <td class="text-right">@item.CreditAmount</td>
+                    <td class="text-right">
+                        @{var c = item.ClosinngDebit > 0 ? @item.ClosinngDebit : 0;} @c
+                    </td>
+                    <td class="text-right">
+                        @{ var v = item.ClosinngCredit > 0 ? @item.ClosinngCredit : 0; } @v
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+</page>
+
+<a href="/accounting/index"class="btn btn-sm btn-secondary loadPartial d-none-p">Back</a>
+
+
+
+
+
+
+
+

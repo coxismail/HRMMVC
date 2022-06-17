@@ -1,0 +1,243 @@
+﻿@model HRMMVC.Models.Employee
+
+@{
+    ViewBag.Title = Model.Full_Name;
+
+}
+
+    <page size="A4">
+        <div class="clearfix text-center">
+            <h2 class="company_title_lg">
+              Human Resourse Management System
+            </h2>
+            <p class="address">
+              
+            </p>
+            <strong class="form-title"> Employee Details</strong>
+        </div>
+        <hr />
+        <div class="row page-header justify-content-between">
+            <div class="w-35">
+                @if (Model.ImageUrl == null)
+                {
+                    <img src="~/Image/Employee/user.png" class="user-image imgs" style="width:120px; height:120px; border-radius:50%;" alt="User Image">
+                }
+                else
+                {
+                    var imagePath = "";
+                    imagePath = Url.Content(Model.ImageUrl);
+
+                    if (imagePath != "")
+                    {
+                        <img src="@imagePath" class="user-image imgs" style="width:120px; height:120px; border-radius:50%;" alt="User Image">
+                    }
+                }
+            </div>
+            <div class="w-50 text-right">
+                <h6> @Html.DisplayFor(model => model.Full_Name)</h6>
+                <h6>EMP-Code : @Html.DisplayFor(model => model.EmployeeCode)</h6>
+                <h6>
+                    @Html.DisplayFor(model => model.Designation.Title) <br />
+                    @Html.DisplayFor(model => model.Phone2)
+                </h6>
+
+            </div>
+        </div>
+        <hr />
+        <div class="card shadow pl-2 pt-2">
+            <table>
+                <tr><td colspan="2" style="padding: 20px 0px; "><strong style="border-bottom: 1px solid;">Contact Information- </strong> <a href="/Employees/UpdateEmployee?id=@Model.Id" class="loadPartial"><i class="fa fa-pencil" aria-hidden="true"></i></a></td></tr>
+
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.Phone)</td>
+                    <td>@Html.DisplayFor(model => model.Phone)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.Phone1)</td>
+                    <td>@Html.DisplayFor(model => model.Phone1)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.Phone2)</td>
+                    <td>@Html.DisplayFor(model => model.Phone2)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.Email)</td>
+                    <td>@Html.DisplayFor(model => model.Email)</td>
+                </tr>
+                <tr>
+                <tr><td colspan="2">Address   <a href="/Employees/AddressSetup?id=@Model.Id" class="loadPartial"><i class="fa fa-pencil" aria-hidden="true"></i></a> </td></tr>
+                <tr>
+                    <td colspan="2">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Division</th>
+                                    <th>District</th>
+                                    <th>Police Station</th>
+                                    <th>Postal Code</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.AddressBook)
+                                {
+
+
+                                    <tr>
+                                        <td><strong>@item.Type</strong></td>
+                                        <td>@item.Division</td>
+                                        <td>@item.District</td>
+                                        <td>@item.Police_Station</td>
+                                        <td>@item.Postal_Code</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="4">@item.Street_Address</td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+
+
+
+
+                <tr><td colspan="2" style="padding: 20px 0px; "><strong style="border-bottom: 1px solid;">Personal Information- </strong> <a href="/Employees/UpdateEmployee?id=@Model.Id" class="loadPartial"><i class="fa fa-pencil" aria-hidden="true"></i></a></td></tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.Full_Name)</td>
+                    <td>@Html.DisplayFor(model => model.Full_Name)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.Father_Name)</td>
+                    <td>@Html.DisplayFor(model => model.Father_Name)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.Mother_Name)</td>
+                    <td>@Html.DisplayFor(model => model.Mother_Name)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.NationalId)</td>
+                    <td>@Html.DisplayFor(model => model.NationalId)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.DateOfBirth)</td>
+                    <td>@Model.DateOfBirth.ToString("dd/MM/yyyy") </ td >
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.Gender)</td>
+                    <td>@Html.DisplayFor(model => model.Gender)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.BloodGroup)</td>
+                    <td>@Html.DisplayFor(model => model.BloodGroup)</td>
+                </tr>
+                <tr>
+                </tr>
+
+                <tr><td colspan="2" style="padding: 20px 0px;"><strong style="border-bottom: 1px solid;">Professional Information-</strong> <a href="/Employees/UpdateEmployee?id=@Model.Id" class="loadPartial"><i class="fa fa-pencil" aria-hidden="true"></i></a></td></tr>
+
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.Designation)</td>
+                    <td>@Html.DisplayFor(model => model.Designation)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.JoiningDate)</td>
+                    <td>@Html.DisplayFor(model => model.JoiningDate)</td>
+                </tr>
+
+                <tr>
+                    <td>Employee Type</td>
+                    <td>@Html.DisplayFor(model => model.EmpType)</td>
+                </tr>
+                <tr>
+                    <td>@Html.DisplayNameFor(model => model.Notes)</td>
+                    <td>@Html.DisplayNameFor(model => model.Notes)</td>
+                </tr>
+                <tr><td colspan="2" style="padding: 20px 0px;"><strong style="border-bottom: 1px solid;">Education Background - </strong> <a href="/Employees/EducationalBackg?id=@Model.Id" class="loadPartial"><i class="fa fa-pencil" aria-hidden="true"></i></a>   </td></tr>
+
+                <tr>
+                    <td colspan="2">
+                        <table class="table table-bordered">
+                            <thead>
+                                @{
+                                    int j = 0;
+                                }
+                                <tr>
+                                    <th>Sl</th>
+                                    <th>Exam title</th>
+                                    <th>Board/University</th>
+                                    <th>Passing Year</th>
+                                    <th>Result</th>
+                                </tr>
+                            </thead>
+                            @foreach (var item in Model.Educational_Background.OrderBy(s => s.Passing_Year))
+                            {
+                                j += 1;
+                                <tr>
+                                    <td>@j</td>
+                                    <td>@item.Exam_Title</td>
+                                    <td>@item.Institute_or_Board</td>
+                                    <td>@item.Passing_Year</td>
+                                    <td>@item.Result</td>
+                                </tr>
+                            }
+                        </table>
+
+                    </td>
+                </tr>
+
+
+                <tr><td colspan="2" style="padding: 20px 0px;"><strong style="border-bottom: 1px solid;">Job Experience-</strong> <a href="/Employees/JobExperience?id=@Model.Id" class="loadPartial"><i class="fa fa-pencil" aria-hidden="true"></i></a> </td></tr>
+
+                <tr>
+                    <td colspan="2">
+                        @{
+                            int k = 0;
+                        }
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Sl</th>
+                                    <th>Position</th>
+                                    <th>Company/ Org.</th>
+                                    <th>Duties</th>
+                                    <th>From</th>
+                                    <th>To</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.JobExperience)
+                                {
+                                    k += 1;
+                                    <tr>
+                                        <td>@k</td>
+                                        <td>@item.Designation</td>
+                                        <td>@item.Company_Name</td>
+                                        <td> @item.Responsiblity</td>
+                                        <td>@item.FromDate.ToString("dd-MMM-yyyy") </td>
+                                        <td>@{ var to = item.ToDate?.ToString("dd-MMM-yyyy") ?? "till";} @to</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                </tr>
+                <tr><td colspan="2" style="padding: 20px 0px;"><strong style="border-bottom: 1px solid;">Attachments - </strong> <a href="/Employees/Attachments?id=@Model.Id" class="loadPartial"><i class="fa fa-pencil" aria-hidden="true"></i></a>   </td></tr>
+
+                @foreach (var item in Model.Document)
+                {
+                    <tr>
+                        <td title="@item.FileUpload" colspan="2">
+                            <a href="@Url.Content(item.Url)" target="_blank" class="">  @item.Title (@item.FileSize) </a>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+
+
+        </div>
+    </page>

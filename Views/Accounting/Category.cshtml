@@ -1,0 +1,59 @@
+﻿@model HRMMVC.Models.LedgerCategory
+
+<div class="card">
+    <div class="card-header">
+        Ledger Category Manage
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+            <div class="d-md-flex justify-content-md-between">
+                <div class="col-md-4">
+                    @Html.LabelFor(model => model.ChartOfAccountId, "ChartOfAccountId", htmlAttributes: new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-hand-o-down"></span>
+                        @Html.DropDownList("ChartOfAccountId", null, htmlAttributes: new { @class = "form-control chosen_select" })
+                        @Html.ValidationMessageFor(model => model.ChartOfAccountId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    @Html.LabelFor(model => model.ParentCategoryId, htmlAttributes: new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-hand-o-down"></span>
+                        @Html.DropDownListFor(model => model.ParentCategoryId, null,"--Parent Category--", new { @class = "form-control chosen_select" })
+                        @Html.ValidationMessageFor(model => model.ParentCategoryId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                <div class="c-input-group">
+                    <span class="icon fa fa-pencil"></span>
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="clearfix">
+                <input type="submit" value="Save or Update" class="btn btn-primary float-right" />
+            </div>
+
+        }
+    </div>
+    <div class="card-footer">
+        <div class="clearfix">
+            <a href="/accounting/index" class="btn btn-sm btn-secondary loadPartial">Back</a>
+            <form class="form-inline ajaxform col-8 float-right" action="/Accounting/GetCategory" method="Post">
+                @Html.DropDownList("CategoryId", null, "--Select Cateory--", new { @class = "form-control chosen_select", @required = "required" })
+                <input type="submit" value="Search for Update" class="btn btn-sm btn-info" />
+            </form>
+        </div>
+    </div>
+</div>
+<div id="javascript" data-function="ManageCategory"></div>

@@ -1,0 +1,257 @@
+﻿@model HRMMVC.Models.Salarysheet
+
+@{
+    ViewBag.Title = "Pay slip";
+}
+
+<page size="A4" style="padding: 1cm 2cm">
+    @if (Model.IsHandover == true)
+    {
+        <div class="padi_sheel">
+            <h3>Paid</h3>
+        </div>
+    }
+    else
+    {
+        <div class="padi_sheel">
+            <h3>Unpaid</h3>
+        </div>
+    }
+
+
+
+    <div class="page-header">
+        <div class="d-flex">
+
+            <div class="page-header-left">
+                <img src="~/Image/company_logo/default.jpg" width="60" />
+            </div>
+            <div class="page-header-right">
+                <span class="sub-heading">Payslip @Model.FromDate.ToString("MMMMM - yyyy")</span>
+            </div>
+
+
+        </div>
+    </div>
+    <hr />
+
+        <table width="100%" style="font-size:12px;" cellpadding="3">
+            <tr>
+                <td width="15%">@Html.DisplayNameFor(model => model.Employee.EmployeeCode)</td>
+                <td> : @Html.DisplayFor(model => model.Employee.EmployeeCode)</td>
+            </tr>
+
+            <tr>
+                <td>Name </td>
+                <td>
+                    :  @Html.DisplayFor(modelItem => modelItem.Employee.Full_Name)   
+
+                </td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Employee.Email)</td>
+                <td> : @Html.DisplayFor(model => model.Employee.Email)</td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Employee.EmpType)
+                </td>
+
+                <td>
+                    : @Html.DisplayFor(model => model.Employee.EmpType)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.BasicSalary)
+                </td>
+
+                <td>
+                    :
+                    @Html.DisplayFor(model => model.BasicSalary)
+                </td>
+            </tr>
+        </table>
+        <hr />
+        <table width="100%" style="font-size:12px; float:left;" cellpadding="3" id="payslip_table">
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.TotalWorkDays)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.TotalWorkDays)
+                </td>
+
+                <td>
+                    @Html.DisplayNameFor(model => model.PayForDays)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.PayForDays)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    @Html.DisplayNameFor(model => model.Absence)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.Absence)
+                </td>
+
+                <td>
+                    @Html.DisplayNameFor(model => model.UnPaid_Leave)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.UnPaid_Leave)
+                </td>
+            </tr>
+            <tr class="">
+                <td>
+                    @Html.DisplayNameFor(model => model.Presents)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.Presents)
+                </td>
+
+                <td>
+                    @Html.DisplayNameFor(model => model.Office_Holiday)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.Office_Holiday)
+                </td>
+            </tr>
+            <tr class="">
+                <td>
+                    @Html.DisplayNameFor(model => model.Paid_Leave)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => model.Paid_Leave)
+                </td>
+                <td colspan="2"></td>
+            </tr>
+
+            @{
+                var type = Model.SalaryType;
+                if (type == HRMMVC.Models.SalaryTypes.Hourly)
+                {
+
+
+                    <tr>
+                        <td width="60%">
+                            @Html.DisplayNameFor(model => model.Hourly_Duty.PayforHour)
+                        </td>
+                        <td>
+
+                            @Html.DisplayFor(model => model.Hourly_Duty.PayforHour)
+                        </td>
+                        <td>
+                            @Html.DisplayNameFor(model => model.Hourly_Duty.Total_Working_Hour)
+                        </td>
+
+                        <td>
+
+                            @Html.DisplayFor(model => model.Hourly_Duty.Total_Working_Hour)
+                        </td>
+                    </tr>
+
+
+                    <tr>
+                        <td>
+                            @Html.DisplayNameFor(model => model.Hourly_Duty.Overtime_hour)
+                        </td>
+
+                        <td>
+
+                            @Html.DisplayFor(model => model.Hourly_Duty.Overtime_hour)
+                        </td>
+                        <td>
+                            @Html.DisplayNameFor(model => model.Hourly_Duty.RatePerHour)
+                        </td>
+
+                        <td>
+
+                            @Html.DisplayFor(model => model.Hourly_Duty.RatePerHour)
+                        </td>
+                    </tr>
+
+
+                }
+            }
+        </table>
+
+
+ 
+        <table width="100%" style="font-size:15px;" cellpadding="3">
+
+            @if (Model.Pay_Full_Month == true)
+            {
+                <tr>
+                    <td colspan="2" class="text-center">
+                        <strong> Faid for full Month</strong>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <th>
+                   Alloawnce
+                </th>
+
+                <td>
+                    @Model.AllowancSalary.Sum(f=>f.Benifited_Amount)
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.GrossSalary)
+                </th>
+
+                <td>
+                    @Html.DisplayFor(model => model.GrossSalary)
+                </td>
+            </tr>
+            @{
+
+                if (Model.AdvanceSalaryDeduction.Amount > 0)
+                {
+                    <tr><th>Deduction (Ad./Salary) </th><td>@Model.AdvanceSalaryDeduction.Amount</td></tr>
+                }
+            }
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.NetSalary)
+                </th>
+
+                <td>
+                    @Html.DisplayFor(model => model.NetSalary)
+                </td>
+            </tr>
+        </table>
+
+
+    <div class="clearfix mt-5">
+        <div class="row justify-content-between pl-3 pr-3">
+            <div class="w-20" style="border-bottom: 1px solid; font-weight:600;">
+                @Html.DisplayNameFor(model => model.Approved_Date)
+            </div>
+            <div class="w-20" style="border-bottom: 1px solid; font-weight:600;">
+                @Html.DisplayNameFor(model => model.Approved_By)
+            </div>
+        </div>
+        <div class="row justify-content-between pl-3 pr-3">
+            <div class="w-30">
+                @{ var d = Model.Approved_Date?.ToString("dd-MMM-yyyy hh : mm tt") ?? "";} @d
+            </div>
+            <div class="w-30">
+                @Html.DisplayFor(model => model.Approved_By)
+            </div>
+        </div>
+    </div>
+</page>
+

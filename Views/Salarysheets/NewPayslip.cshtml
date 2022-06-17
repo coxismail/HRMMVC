@@ -1,0 +1,57 @@
+﻿@using HRMMVC.Manager
+@{
+    int i = 0;
+    ViewBag.title = "New Payslip";
+}
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-header">
+            New Payslip
+        </div>
+        <div class="card-body">
+            @if (Settings.RequireAttendance == false)
+            {
+                using (Html.BeginForm("NewPayslipAuto", "salarysheets", FormMethod.Post, new { @class = "ajaxform" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="">
+                        @Html.Label("Employees",new { @class="control-label"})
+                        <div class="c-input-group">
+                            <span class="icon fa fa-hand-o-down"></span>
+                            @Html.DropDownList("EmployeeId", null, "--Select Employee--", new { @class = "form-control", @multieple = "multiple" })
+                        </div>
+                    </div>
+                    <div class="c-input-group">
+                        <span class="icon fa fa-calendar"></span>
+                        <input type="month" name="Month" required class="form-control" />
+                    </div>
+                    <div class="clearfix">
+                        <input type="submit" value="Generate" class="btn btn-sm btn-outline-primary float-right" />
+                    </div>
+                }
+            }
+            else
+            {
+                using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="c-input-group">
+                        <span class="icon fa fa-hand-o-down"></span>
+                        @Html.DropDownList("EmployeeId", null, "--Select Employee--", new { @class = "form-control" })
+                    </div>
+                    <div class="c-input-group">
+                        <span class="icon fa fa-calendar"></span>
+                        <input type="month" name="Month" required class="form-control" />
+                    </div>
+                    <div class="clearfix">
+                        <input type="submit" value="Next" class="btn btn-sm btn-outline-primary float-right" />
+                    </div>
+                }
+            }
+        </div>
+
+        <div class="card-footer">
+            <a href="/salarysheets/index" class="btn btn-sm btn-secondary loadPartial">Pending Confirmation</a>
+        </div>
+    </div>
+</div>

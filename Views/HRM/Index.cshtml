@@ -1,0 +1,291 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    var todaybirth = ViewBag.TodayBirthDay as IEnumerable<HRMMVC.Models.Employee>;
+    var tomorrowbirth = ViewBag.TomorrowBirthDay as IEnumerable<HRMMVC.Models.Employee>;
+    var TodaysLeave = ViewBag.TodaysLeave as IEnumerable<HRMMVC.Models.DashboarCounting>;
+}
+
+
+
+
+
+
+
+@*First Row*@
+<div class="d-md-flex justify-content-md-between bg-light">
+    <div class="col-md-6 dashboard-section">
+        <div id="employeepresents" style="width:100%">
+            <canvas id="employeepresents-chart-bar"></canvas>
+        </div>
+    </div>
+    <div class="col-md-6 dashboard-section">
+        <div id="lastmonthperformance" style="width:100%">
+            <canvas id="lastmonthperformance-column"></canvas>
+        </div>
+    </div>
+</div>
+
+@*Second Column*@
+
+@*Leave last 15 and next 15 days*@
+
+
+
+@*thired Column*@
+<div class="d-md-flex justify-content-md-between">
+    @*First Column*@
+    <div class="col-md-4 dashboard-section">
+        <div class="dashboard-section-header">
+            <span>   <i class="fa fa-birthday-cake"></i> Birthday Celibation (Today)  </span>
+            <span>(@todaybirth.Count())</span>
+        </div>
+        <div class="dashboard-section-body">
+            <table class="dashboard-table">
+                @foreach (var item in todaybirth)
+                {
+                    <tr>
+                        <td>@item.Full_Name</td>
+                        <td>@item.Designation.Title</td>
+                        <td><img src="@Url.Content(item.ImageUrl)" alt="@item.Full_Name" /></td>
+                        <td><a href="#"><i class="fa fa-birthday-cake"></i></a></td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+        <div class="dashboard-section-footer">
+            <span>Wish All </span>
+            <a href="#"><i class="fa fa-mouse-pointer"></i></a>
+        </div>
+    </div>
+    <div class="col-md-4 dashboard-section">
+        @*2nd column*@
+        <div class="dashboard-section-header">
+            <span>   <i class="fa fa-birthday-cake"></i> Birthday Celibation (Tomorrow)  </span>
+            <span>(@tomorrowbirth.Count())</span>
+        </div>
+        <div class="dashboard-section-body">
+            <table class="dashboard-table">
+                @foreach (var item in tomorrowbirth)
+                {
+                    <tr>
+                        <td>@item.Full_Name</td>
+                        <td>@item.Designation.Title</td>
+                        <td><img src="@Url.Content(item.ImageUrl)" alt="@item.Full_Name" /></td>
+                        <td><a href="#"><i class="fa fa-birthday-cake"></i></a></td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+        <div class="dashboard-section-footer">
+
+        </div>
+    </div>
+    <div class="col-md-4 dashboard-section">
+        <div class="dashboard-section-header">
+            <span>  Today's Leave  </span>
+            <span>(@TodaysLeave.Sum(f => f.Count))</span>
+        </div>
+        <table class="dashboard-table">
+            @foreach (var item in TodaysLeave)
+            {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.Count</td>
+                </tr>
+            }
+
+        </table>
+    </div>
+
+</div>
+
+
+@section Scripts{
+    
+<script>
+    chartColors = {
+        red: 'rgb(255, 99, 132)',
+        orange: 'rgb(255, 159, 64)',
+        yellow: 'rgb(255, 205, 86)',
+        green: 'rgb(75, 192, 192)',
+        blue: 'rgb(54, 162, 235)',
+        purple: 'rgb(153, 102, 255)',
+        grey: 'rgb(201, 203, 207)'
+    };
+    $(document).ready(function () {
+        Load30DaysAttendance();
+        LoadLastMonthPerformance();
+    });
+
+    function Load30DaysAttendance() {
+        $.ajax({
+            type: "GET",
+            url: "/HRM/EmployeeLastMonthPresents",
+            contentType: "application/json; charset=utf-8",
+            beforeSend: function () {
+                OpenDivLoading("employeepresents");
+
+            },
+            dataType: "json",
+            success: function (chData) {
+                CloseDivLoading("employeepresents");
+
+                var lebels = [];
+                var Absence = [];
+                var Presents = [];
+                for (var i = 0; i < chData.length; i++) {
+                    lebels += "\"" + chData[i].Date + "\",";
+                    Absence += "" + chData[i].Absence + ",";
+                    Presents += "" + chData[i].Present + ",";
+                }
+                var lebel = lebels.toString().substring(0, lebels.toString().length - 1);
+                var ab = Absence.toString().substring(0, Absence.toString().length - 1);
+                var pres = Presents.toString().substring(0, Presents.toString().length - 1);
+               
+                var l = JSON.parse("[" + lebel + "]");
+                var abs = JSON.parse("[" + ab + "]");
+                var presen = JSON.parse("[" + pres + "]");
+
+                var data = {
+                    labels: l,
+                    datasets: [{
+                        label: 'Presents',
+                        borderColor: window.chartColors.blue,
+                        backgroundColor: window.chartColors.blue,
+                        fill: false,
+                        data: presen,
+                        yAxisID: 'y-axis-1',
+                    },
+                    {
+                        label: 'Absence',
+                        borderColor: window.chartColors.red,
+                        backgroundColor: window.chartColors.red,
+                        fill: false,
+                        data: abs,
+                        yAxisID: 'y-axis-2'
+                    }]
+                }
+
+                var config = {
+                    type: 'line',
+                    showDatapoints: true,
+                    legend: { position: 'top' },
+                    data: data,
+                    options: {
+                        responsive: true,
+                        hoverMode: 'index',
+                        stacked: false,
+                        title: {
+                            display: true,
+                            text: 'Last 30 Days Attendance'
+                        },
+                        scales: {
+                            yAxes: [{
+                                type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                                display: true,
+                                position: 'left',
+                                id: 'y-axis-1',
+                            },
+                                {
+                                type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                                display: true,
+                                position: 'right',
+                                id: 'y-axis-2',
+
+                                // grid line settings
+                                gridLines: {
+                                    drawOnChartArea: true, // only want the grid lines for one axis to show up
+                                },
+                            }],
+                        }
+                    }
+                };
+
+                var ctx = $("#employeepresents-chart-bar").get(0).getContext("2d");
+                var dd = new Chart(ctx, config);
+            }
+        });
+    }
+    function LoadLastMonthPerformance() {
+        $.ajax({
+            type: "GET",
+            url: "/HRM/GetPerformanceLastMonth",
+            contentType: "application/json; charset=utf-8",
+            beforeSend: function () {
+                OpenDivLoading("lastmonthperformance");
+
+            },
+            dataType: "json",
+            success: function (chData) {
+              
+                CloseDivLoading("lastmonthperformance");
+
+                var lebels = [];
+                var Absence = [];
+                for (var i = 0; i < chData.length; i++) {
+                    lebels += "\"" + chData[i].Title + "\",";
+                    Absence += "" + chData[i].Count + ",";
+                }
+                var lebel = lebels.toString().substring(0, lebels.toString().length - 1);
+                var ab = Absence.toString().substring(0, Absence.toString().length - 1);
+
+                var l = JSON.parse("[" + lebel + "]");
+                var abs = JSON.parse("[" + ab + "]");
+              
+                var data = {
+                    labels: l,
+                    datasets: [{
+                        label: 'Performance',
+                        borderColor: window.chartColors.blue,
+                        backgroundColor: window.chartColors.blue,
+                        fill: true,
+                        data: abs,
+                        yAxisID: 'y-axis-1',
+                    }]
+                }
+                var config2 = {
+                    type: 'line',
+                    showDatapoints: true,
+                    legend: { position: 'top' },
+                    data: data,
+                    options: {
+                        responsive: true,
+                        hoverMode: 'index',
+                        stacked: false,
+                        title: {
+                            display: true,
+                            text: 'Current Employee Performance'
+                        },
+                        scales: {
+                            yAxes: [{
+                                type: 'linear', 
+                                display: true,
+                                position: 'bottom',
+                                id: 'y-axis-1',
+                                gridLines: {
+                                    drawOnChartArea: true, // only want the grid lines for one axis to show up
+                                },
+                            }
+                            ],
+                        }
+                    }
+                };
+
+                var ctx1 = $("#lastmonthperformance-column").get(0).getContext("2d");
+                var dd = new Chart(ctx1, config2);
+            }
+
+        });
+    }
+    function OpenDivLoading(divid) {
+        $('#' + divid + '').append('<div class="divloading">Loading&#8230;</div>');
+
+    }
+    function CloseDivLoading(divid) {
+        $('#' + divid + '').children('.divloading').remove();
+    }
+</script>
+}

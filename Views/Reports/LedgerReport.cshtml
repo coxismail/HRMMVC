@@ -1,0 +1,55 @@
+﻿
+
+<page size="A4" class="p-3">
+    @Html.Partial("ReportHeader")
+    <table id="ledgerReportDetails" class="table">
+        <thead>
+            <tr class="report-header">
+                <th class="text-left">Date</th>
+                <th class="text-left">Type</th>
+                <th class="text-left">Vch. No</th>
+                <th class="text-left">Particular</th>
+                <th width="15%">Debit (tk)</th>
+                <th width="15%">Credit (tk)</th>
+                <th width="15%">Balance</th>
+            </tr>
+        </thead>
+
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right"></td>
+                <td style="font-weight: bold; ">Total: </td>
+                <td class="text-right" style="font-weight: bold;">@ViewBag.DebitSum</td>
+                <td class="text-right" style="font-weight: bold;">@ViewBag.CreditSum</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="3" class="text-right"></td>
+                <td class="text-right" style="font-weight: bold;">
+                    @{
+                        string show = "Credit Balance : ";
+                        var db = Convert.ToDecimal(ViewBag.totalDB);
+                        var cd = Convert.ToDecimal(ViewBag.totalCD);
+                        if (db > cd)
+                        {
+                            show = "Debit Balance";
+                        }
+                    }
+                    @show
+                </td>
+                <td class="text-right" style="font-weight: bold; border-bottom: 1px solid black;">@ViewBag.totalDB</td>
+                <td class="text-right" style="font-weight: bold; border-bottom: 1px solid black;">@ViewBag.totalCD</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td colspan="3" class="text-right"></td>
+                <td class="text-right" style="font-weight: bold;">Grand Total: </td>
+                <td class="text-right" style="font-weight: bold; border-bottom: 1px solid black;">@ViewBag.TotalSum</td>
+                <td class="text-right" style="font-weight: bold; border-bottom: 1px solid black;">@ViewBag.TotalSum</td>
+                <td></td>
+            </tr>
+
+        </tfoot>
+    </table>
+</page>
+    <div id="javascript" data-function="LedgerReports"></div>

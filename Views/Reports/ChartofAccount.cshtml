@@ -1,0 +1,39 @@
+﻿@model IEnumerable<HRMMVC.Models.ProfitAndLoss>
+<page size="A4" class="p-3">
+    @Html.Partial("ReportHeader")
+    <table class="table table-bordered" id="table">
+        <thead class="">
+            <tr><th><strong>Ledger Category</strong></th><th class="text-center">Debit</th><th class="text-center">Credit</th><th class="text-center">Balance</th></tr>
+        </thead>
+        <tbody class="report-body">
+
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td class="text-right">@item.DrBalance</td>
+                    <td class="text-right">@item.CrBalance</td>
+                    <td class="text-right">
+                        @{
+                            string output = "";
+                            decimal Dr = Convert.ToDecimal(@item.DrBalance);
+                            decimal Cr = Convert.ToDecimal(@item.CrBalance);
+                            if (Dr > Cr)
+                            {
+                                output = Dr - Cr + " Dr";
+                            }
+                            else if (Dr < Cr)
+                            {
+                                output = Cr - Dr + " Cr";
+                            }}
+                        @output
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr><td>Closing</td><td class="text-right">@ViewBag.TotalDebit</td><td class="text-right">@ViewBag.TotalCredit</td><td class="text-right">@ViewBag.ClosingBalance</td></tr>
+        </tfoot>
+    </table>
+</page>       

@@ -1,0 +1,87 @@
+﻿
+
+
+@functions {
+    public decimal SubtractNumbers(decimal number1, decimal number2)
+    {
+        return Convert.ToDecimal(number1) - Convert.ToDecimal(number2);
+    }
+    public decimal AddNumbers(decimal number1, decimal number2)
+    {
+        return Convert.ToDecimal(number1) + Convert.ToDecimal(number2);
+    }
+}
+
+<page size="A4" class="p-3">
+    @Html.Partial("ReportHeader")
+    <table class="table-bordered" width="100%">
+        <thead>
+            <tr>
+                <th class="text-center">Particular</th>
+                <th class="amount">Amount</th>
+                <th class="amount">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in ViewBag.Sales)
+            {
+                <tr><td>@item.Name</td><td style="width:100px; text-align:right" id="income">@SubtractNumbers(Convert.ToDecimal(@item.CrBalance), Convert.ToDecimal(@item.DrBalance)).ToString("F")</td> <td></td></tr>
+            }
+            @foreach (var item in ViewBag.Purchase)
+            {
+                <tr><td>@item.Name</td><td style="width:100px; text-align:right" id="expenses">@SubtractNumbers(Convert.ToDecimal(@item.DrBalance), Convert.ToDecimal(@item.CrBalance))</td><td></td></tr>
+            }
+            <tr>
+                <td class="pl-3"><strong> Total Gross Profit</strong></td>
+                <td></td>
+                <th class="sum_amount text-right">@ViewBag.GrossProfit.ToString("F")</th>
+            </tr>
+
+            @foreach (var item in ViewBag.Income)
+            {
+                <tr><td>@item.Name</td><td style="width:100px; text-align:right" id="income">@SubtractNumbers(Convert.ToDecimal(@item.CrBalance), Convert.ToDecimal(@item.DrBalance)).ToString("F")</td><td></td></tr>
+            }
+            <tr>
+                <th class="pl-3">Total Other Income</th>
+                <td> </td>
+                <th class="sum_amount text-right">@ViewBag.Other_IncomeSum</th>
+            </tr>
+
+            @foreach (var item in ViewBag.Expenses)
+            {
+                if (SubtractNumbers(Convert.ToDecimal(item.DrBalance), Convert.ToDecimal(item.CrBalance)) != 0)
+                {
+                    <tr><td>@item.Name</td><td style="width:100px; text-align:right" id="expenses">@SubtractNumbers(Convert.ToDecimal(@item.DrBalance), Convert.ToDecimal(@item.CrBalance))</td><td></td></tr>
+                }
+
+            }
+            <tr>
+                <td class="pl-3"><strong>Total Other Expense</strong></td>
+                <td></td>
+                <th class="sum_amount text-right">@ViewBag.Other_ExpenseSum</th>
+            </tr>
+
+
+            @if (ViewBag.TotalIncome >= ViewBag.TotalExpense)
+            {
+                <tr>
+                    <th class="pl-3"><strong>Net Profit</strong></th>
+                    <th></th>
+                    <th style="width:100px;text-align:right"><span style="padding:5px;">@SubtractNumbers(Convert.ToDecimal(@ViewBag.TotalIncome), Convert.ToDecimal(@ViewBag.TotalExpense)).ToString("F")</span></th>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <th class="pl-3"><strong>Net Loss</strong></th>
+                    <th></th>
+                    <th style="width:100px;text-align:right"><span style="padding:5px;">@SubtractNumbers(Convert.ToDecimal(@ViewBag.TotalExpense), Convert.ToDecimal(@ViewBag.TotalIncome)).ToString("F")</span></th>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="clearfix">
+        <a href="/accounting/index" class="loadPartial btn btn-sm btn-secondary">Back</a>
+    </div>
+</page>

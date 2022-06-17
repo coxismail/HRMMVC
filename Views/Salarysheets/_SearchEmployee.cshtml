@@ -1,0 +1,29 @@
+﻿@model IEnumerable<HRMMVC.Models.PerformanceViewModel>
+    @using HRMMVC.Models
+    @{ 
+        var days = Enum.GetValues(typeof(Performance))
+       .Cast<Performance>()
+       .Select(d => new { Text = d, id = (int)d })
+       .ToList();
+        int i = 0;
+    }
+<table class="table table-bordered" border="1" id="performanceTable">
+    <thead>
+        <tr><th width="10%">Sl</th><th width="60%">Employee</th><th width="30%"></th></tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            i += 1;
+            <tr><td>@i</td>
+        <td>@item.Name ( @item.Code ) <input type="hidden" name="EmployeeId[]" value="@item.EmployeeId" /></td>
+        <td><select name="Performance[]" class="form-control" required>
+            @foreach (var pr in days)
+            {
+                <option value="@pr.id">@pr.Text</option>
+            }
+            </select></td>
+        </tr>
+        }
+    </tbody>
+</table>

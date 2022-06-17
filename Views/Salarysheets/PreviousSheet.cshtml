@@ -1,0 +1,76 @@
+﻿@model HRMMVC.Models.SalarySheetViewModel
+
+@using HRMMVC.Models;
+@{ 
+    var m = Model?.Month.ToString("MMM-yyyy") ?? "";
+}
+
+
+<div class="clearfix">
+    <form action="/salarysheets/PreviousSheet" method="GET" class="ajaxform form-inline"> <input type="month" name="Month" class="form-control" required /> <input type="submit" value="Search" /> </form>
+</div>
+<page size="A4" layout="landscape">
+   
+    <h5 class="text-center">Salary Sheet of @m</h5>
+    <table class="sheets_table table table-responsive" border="1" width="100%">
+        <thead>
+            <tr>
+                <th class="">Sl No.</th>
+                <th class="">Full Name</th>
+                <th class="">Designation</th>
+                <th class="">Salary</th>
+                <th class="">Rate Per Hour</th>
+                <th class="">Working Days</th>
+                <th class="">Present (Hour)</th>
+                <th class="">O/T (Hour)</th>
+                <th class="">O/T (Amount)</th>
+                <th class="">Full Month?</th>
+                <th class="">Bonus</th>
+                <th class="">Deduction </th>
+                <th class=""> Gross Salary</th>
+                <th class="">Net Salary </th>
+                <th class="">View</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Salarysheet_property)
+            {
+                <tr>
+                    <td></td>
+                    <td>@item.Full_Name</td>
+                    <td>@item.Designation</td>
+                    <td>@item.BasicSalary</td>
+                    @if (item.SalaryType == SalaryTypes.Hourly)
+                    {
+                        <td>@item.Rate_Per_Hour</td>
+                        <td>@item.TotalWorkDays</td>
+                        <td>@item.PayForHour</td>
+                        <td>@item.OverTime_Hour</td>
+                        <td>@{var oa = Convert.ToInt32(item.OverTime_Hour * item.Rate_Per_Hour);}  @oa</td>
+
+                    }
+                    else
+                    {
+                        <td colspan="5"></td>
+                    }
+
+
+
+                    <td>@item.Pay_Full_Month</td>
+                    <td>@item.Bonus</td>
+                    <td>@item.Deduction</td>
+                    <td>@item.GrossSalary</td>
+                    <td>@item.NetSalary</td>
+                    <td><a href="/salarysheets/PaySlip?id=@item.Id" class="loadPartial"><i class="fa fa-eye" area-hidden="true"></i></a></td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</page>
+
+
+
+
+
+

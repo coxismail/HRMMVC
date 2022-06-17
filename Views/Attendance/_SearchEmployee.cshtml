@@ -1,0 +1,24 @@
+﻿@model IEnumerable<HRMMVC.Models.DailyAttendance>
+@{ 
+    int i = 0;
+}
+<table class="table table-bordered" border="1" id="attentanceentryble">
+
+    <thead>
+        <tr><th width="5%">Sl</th><th width="10%">Employee</th><th width="15%">Entry</th><th width="15%">Out</th><th width="10%">is Leave?</th><th width="25%"></th></tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            i += 1;
+            <tr>
+                <td> @i</td>
+                <td>@item.Employee.Full_Name <input type="hidden" name="EmployeeId[]" value="@item.EmployeeId" /> </td>
+                <td>@Html.TextBox("Entry[]",  item.Entry, new { @type = "time", @class = "form-control entry" })</td>
+                <td>@Html.TextBox("Out[]", item.Out, new { @type = "time", @class = "form-control out", })</td>
+                <td class="text-center">@Html.CheckBox("isleave[]", item.IsLeave, new { @class = "isleave" })</td>
+                <td>@Html.TextBox("ApplicationRef[]", item.ApplicationRef, new { @type = "text", @class = "form-control reference", @placeholder = "Application Reference No" })</td>
+            </tr>
+        }
+    </tbody>
+</table>

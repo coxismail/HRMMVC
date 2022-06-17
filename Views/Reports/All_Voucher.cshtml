@@ -1,0 +1,42 @@
+﻿@{
+    ViewBag.title = "Vouchers";
+}
+
+<div class="card">
+    <div class="card-header">
+        All Voucher
+    </div>
+    <div class="clearfix my-2 px-2">
+        <div class="input-group">
+            @Html.DropDownList("Type", null, "--Voucher Type--", new { @class="form-control"})
+            <input type="date" class="form-control" name="from" id="from" /><input type="date" class="form-control" id="to" />
+            <button type="button" class="btn btn-sm btn-info" id="searchVoucher"><i class="fa fa-search" aria-hidden="true"></i> Search</button>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-condensed" id="all_voucher_table">
+            <thead>
+                <tr>
+                    <th>Sl</th>
+                    <th>Date</th>
+                    <th>Voucher No  </th>
+                    <th>Type </th>
+                    <th>Amount </th>
+                    <th>Narration </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th colspan="4">Total</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<div id="javascript" data-function="All_Voucher"></div>

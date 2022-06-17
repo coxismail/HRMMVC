@@ -1,0 +1,53 @@
+﻿
+<div class="container">
+    <div class="single-job">
+        <div class="job-head d-md-flex  justify-content-md-between mb-3">
+            <h5>General Assitant Manager</h5>
+            <span class="job-deadline">Deadline :  31 March 2022</span>
+        </div>
+        <div class="job-description">
+            We have set up our global business expansion plans in Europe. I hope that today’s visit of the German ambassador and the deputy head of mission will further strengthen the Bangladesh’s bilateral trade relations with Germany.’We have set up our global business expansion plans in Europe. I hope that today’s visit of the German ambassador and the deputy head of mission will further strengthen the Bangladesh’s bilateral trade relations with Germany.’ <a href="#">Apply</a>
+        </div>
+        <div class="conditions">
+            <div class="condition">
+                <div class="condition-title">
+                    <strong>Education background</strong>
+                </div>
+                <ul class="condition-terms">
+                 <li> * Minimun SSC pass</li>
+                 <li> * Two year working experience</li>
+                 <li> * Computer Skills</li>
+                </ul>
+            </div>
+            <div class="condition">
+                <div class="condition-title">
+                    <strong>Education background</strong>
+                </div>
+                <ul class="condition-terms">
+                    <li> * Minimun SSC pass</li>
+                    <li> * Two year working experience</li>
+                    <li> * Computer Skills</li>
+                </ul>
+            </div>
+        </div>
+        <div class="button-area clearfix mt-3">
+            <button type="button"  class="btn btn-sm btn-info">Print</button>
+            <button type="button" class="btn btn-sm btn-secondary" onclick="CreateBookmark();">Book Mark</button>
+            <button type="button" class="btn btn-sm btn-primary float-right">Apply</button>
+        </div>
+        </div>
+</div>
+
+@section Scripts{
+    
+    <script>
+        function CreateBookmark() {
+           var browser = window.browser;
+            var createBookmark = browser.bookmarks.create({
+                title: "bookmarks.create() on MDN",
+                url: "https://developer.mozilla.org/Add-ons/WebExtensions/API/bookmarks/create"
+            });
+            console.log(createBookmark);
+        }
+    </script>
+    }

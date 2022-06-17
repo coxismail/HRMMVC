@@ -1,0 +1,69 @@
+﻿@model HRMMVC.Models.Advance_Salary
+@{
+    ViewBag.title = "Advance Salary";
+
+}
+
+
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">
+            Advance Salary
+        </div>
+        <div class="card-body">
+
+
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="" ">
+                    @Html.LabelFor(model => model.EmployeeId, "Employee", htmlAttributes: new { @class = "control-label" })
+
+                    <div class="c-input-group">
+                        <span class="icon fa fa-hand-o-down"></span>
+                        @Html.DropDownList("EmployeeId", null, "Select Employee", htmlAttributes: new { @class = "form-control chosen_select" })
+                        @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="" ">
+                    @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-calendar"></span>
+                        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="" ">
+                    @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-money"></span>
+                        @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control", @placeholder = "0000.00" } })
+                        @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="" ">
+                    @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-sticky-note"></span>
+                        @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control", @placeholder = "Notes" } })
+                        @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="clearfix">
+                    <input type="submit" value="Submit" class="btn btn-outline-success float-right" />
+                </div>
+
+            }
+
+        </div>
+        <div class="card-footer">
+            <a href="/Salarysheets/Advance_History" class="loadPartial btn btn-sm btn-outline-success"> History</a>
+        </div>
+    </div>
+</div>

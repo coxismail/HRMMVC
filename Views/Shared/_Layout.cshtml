@@ -1,0 +1,59 @@
+﻿@using HRMMVC.Models;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRM Solutions</title>
+    @Styles.Render("~/bundles/usercss")
+</head>
+<body>
+
+
+    @Html.Partial("_SidebarUser")
+
+    <div class="main-content">
+        <header>
+            <div class="search-wrapper">
+                &nbsp;&nbsp; <div class="spinner-border text-secondary spinner-border-sm" style="visibility:hidden" id="c-loader" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <div class="ml-1" style="width: 100%; color: #005e77;">
+                    <marquee>“In order to build a rewarding employee experience, you need to understand what matters most to your people.” – Julie Bevacqua </marquee>
+                </div>
+
+            </div>
+            <div class="shortlink">
+                <a href="javascript:document.getElementById('logoutForm').submit()"><i class="fa fa-sign-out"></i></a>
+                <div class="profile">
+                    <a class="loadPartial" href="/myprofile"> <img src="@Url.Content(User.Identity.ProfilePicture())" width="100%" class=""></a>
+                </div>
+            </div>
+        </header>
+        <main class="p-2">
+            @RenderBody()
+
+        </main>
+    </div>
+    <div class="progress user-loader" id="u-loader">
+        <div class="progress-bar progress-bar-striped bg-success" id="u-progress-bar" role="progressbar" style="width: 0%; transition-duration: 3s;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+
+    @Scripts.Render("~/bundles/userjs")
+    @RenderSection("scripts", required: false)
+    @if (Request.IsAuthenticated)
+    {
+        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+        {
+            @Html.AntiForgeryToken()
+        }
+    }
+</body>
+</html>
+
+
+
+
+
+
+
+

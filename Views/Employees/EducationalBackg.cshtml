@@ -1,0 +1,85 @@
+﻿@model HRMMVC.Models.Educational_Background
+
+@{
+    ViewBag.Title = "Educational Background";
+
+}
+<div class="card">
+    <div class="card-body">
+        @if (ViewBag.Education != null)
+        {
+            <table border="1" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Title</th> <th>Year</th><th>Roll</th><th>Board</th><th>Result</th><th></th>
+                    </tr>
+                </thead>
+                @foreach (var item in ViewBag.Education as IEnumerable<HRMMVC.Models.Educational_Background>)
+                {
+            <tr>
+                <td>@item.Exam_Title</td>
+                <td>@item.Passing_Year</td>
+                <td>@item.Roll</td>
+                <td>@item.Institute_or_Board</td>
+                <td>@item.Result</td>
+                <td colspan="5"><a href="/Employees/Removeitem?EmpId=@ViewBag.Id&type=Edu&id=@item.Id" class="loadPartial">Remove</a></td>
+            </tr>
+
+                }
+            </table>
+
+        }
+    </div>
+
+    <fieldset>
+        <legend>Add Educational Background for :  @ViewBag.Employee</legend>
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="col-md-8 offset-md-2">
+                <div class="d-md-flex">
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Exam_Title, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Exam_Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "Exam title" } })
+                        @Html.ValidationMessageFor(model => model.Exam_Title, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Roll, htmlAttributes: new { @class = "control-label" })
+
+                        @Html.EditorFor(model => model.Roll, new { htmlAttributes = new { @class = "form-control", @placeholder = "Roll" } })
+                        @Html.ValidationMessageFor(model => model.Roll, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Passing_Year, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Passing_Year, new { htmlAttributes = new { @class = "form-control", @placeholder = "Year" } })
+                        @Html.ValidationMessageFor(model => model.Passing_Year, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Institute_or_Board, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Institute_or_Board, new { htmlAttributes = new { @class = "form-control", @placeholder = "Board/University" } })
+                        @Html.ValidationMessageFor(model => model.Institute_or_Board, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Result, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Result, new { htmlAttributes = new { @class = "form-control", @placeholder = "Result" } })
+                        @Html.ValidationMessageFor(model => model.Result, "", new { @class = "text-danger" })
+                    </div>
+                    <input type="hidden" name="Id" value="@ViewBag.Id" />
+                </div>
+                <div class="clearfix">
+                    <a href="/Employees/Details?id=@ViewBag.Id" class="btn btn-sm btn-secondary loadPartial">Details</a>
+                    <input type="submit" value="Save" class="btn btn-sm btn-primary float-right" />
+                </div>
+
+            </div>
+
+
+        }
+    </fieldset>
+</div>

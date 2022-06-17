@@ -1,0 +1,39 @@
+﻿@model IEnumerable<HRMMVC.Models.JobApplication>
+    @{ 
+        int i = 0;
+    }
+<div class="card">
+    <div class="card-header">
+        Job Applicatio Against Circular : <span> @ViewBag.Post</span>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Sl</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>Resume</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    i += 1;
+                    <tr>
+                        <td>@i</td>
+                        <td>@item.Full_Name</td>
+                        <td>@item.Email</td>
+                        <td>@item.Mobile</td>
+                        <td><a href="#"><i class="fa fa-file"></i></a></td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <a href="/careerin/" class="btn btn-sm btn-secondary loadPartial">Back to Circular</a>
+    </div>
+</div>

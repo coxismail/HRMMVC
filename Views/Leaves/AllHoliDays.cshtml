@@ -1,0 +1,50 @@
+﻿@model IEnumerable<HRMMVC.Models.HoliDays>
+
+
+<div class="card">
+    <div class="card-header">
+       Holiday in this year
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Title)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LeaveFrom)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LeaveTo)
+                    </th>
+
+                    <th>Days</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @item.LeaveFrom.ToString("dd-MMM-yyyy")
+                    </td>
+                    <td>
+                        @item.LeaveTo.ToString("dd-MMM-yyyy")
+                    </td>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalDays)
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+            <a href="@Url.Action("HoliDays", "Leaves")" class="btn btn-outline-primary loadPartial float-right">+Enter New</a>
+    </div>
+</div>

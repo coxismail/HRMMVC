@@ -1,0 +1,65 @@
+﻿@model HRMMVC.Models.EmpLeave
+@{
+    ViewBag.title = "Employee Leaves Entry";
+}
+
+
+
+
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-header">
+            Leave Entry
+        </div>
+        <div class="card-body">
+
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.DropDownList("EmployeeId", null, "--Employee--", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @*@Html.LabelFor(model => model.LeaveType, htmlAttributes: new { @class = "control-label" })*@
+
+                    @Html.DropDownList("LeaveTypeId", null, "--Leave Type--", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.LeaveType, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.EditorFor(model => model.ApplicationRef, new { htmlAttributes = new { @class = "form-control", @placeholder = "Application Ref." } })
+                    @Html.ValidationMessageFor(model => model.ApplicationRef, "", new { @class = "text-danger" })
+
+                </div>
+
+
+                <div class="d-md-flex justify-content-md-between">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LeaveFromDate, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.LeaveFromDate, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LeaveFromDate, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LeaveToDate, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.LeaveToDate, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LeaveToDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="clearfix mt-2">
+                    <input type="submit" id="submit" value="Save" class="btn btn-sm btn-outline-primary float-right" />
+                </div>
+
+            }
+            <span id="leavetakenmessge"></span>
+        </div>
+
+        <div class="card-footer">
+            <a href="/leaves/index" class="loadPartial btn btn-sm btn-secondary">Back To List</a>
+        </div>
+    </div>
+</div>
+
+<div id="javascript" data-function="LeavesEntry"></div>

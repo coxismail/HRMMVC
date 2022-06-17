@@ -1,0 +1,53 @@
+﻿@model IEnumerable<HRMMVC.Models.Circular>
+@using HRMMVC.Models;
+@{ 
+    int i = 0;
+}
+<div class="card">
+    <div class="card-header">
+        Current Job Circular
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr><th>Sl</th><th>Title</th><th>Start</th><th>End</th><th>Status</th><th>Action</th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        i += 1;
+                    <tr>
+                        <td>@i</td>
+                        <td>@item.Title</td>
+                        <td class="text-center">@TimeZoneInfo.ConvertTimeFromUtc(item.StartFrom, User.Identity.TimeZone()).ToString("dd-MMM-yyyy hh:mm tt")</td>
+                        <td class="text-center">@TimeZoneInfo.ConvertTimeFromUtc(item.Deadline, User.Identity.TimeZone()).ToString("dd-MMM-yyyy hh:mm tt")</td>
+                        @if (item.IsClosed == true)
+                        {
+                            <td class="text-center">Closed</td>
+                        }
+                        else if (item.IsPublished == true)
+                        {
+                            <td class="text-center">Published</td>
+                        }
+                        else
+                        {
+                            <td class="text-center">Un published</td>
+                        }
+                    <td class="text-center">
+                        <a href="/careerin/Requrmentsetup?Id=@item.Id" title="Requirement" class="btn btn-sm btn-warning loadPartial"><i class="fa fa-bars"></i></a>
+                        <a href="/careerin/Applications?Id=@item.Id" title="Check Application" class="btn btn-sm btn-info loadPartial"><i class="fa fa-list"></i></a>
+                        <a href="/careerin/Circular?Id=@item.Id" title="Edit Circular" class="btn btn-sm  btn-primary loadPartial"><i class="fa fa-pencil"></i></a>
+                        <a href="/careerin/Close?Id=@item.Id" title="Close this Circular" class="btn btn-sm  btn-danger loadPartial require-confirm"><i class="fa fa-times"></i></a>
+                    </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer">
+        <a href="/careerin/Applications" class="loadPartial btn btn-secondary">Application</a>
+        <a href="/careerin/circular" class="loadPartial btn btn-primary">New Circular</a>
+    </div>
+</div>

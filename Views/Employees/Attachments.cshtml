@@ -1,0 +1,61 @@
+﻿@model HRMMVC.Models.Document
+
+@{
+    ViewBag.Title = "Attachments";
+
+}
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">
+            Attach Document for : @ViewBag.Employee
+        </div>
+        <div class="card-body">
+            @if (ViewBag.Doc != null)
+            {
+                foreach (var item in ViewBag.Doc as IEnumerable<HRMMVC.Models.Document>)
+                {
+                    <div class="alert alert-success" role="alert">
+                        @item.Title ( @item.FileSize) - Upload on:  @item.UploadOn.ToString("dd-MMM-yyyy")
+                        <a href="@Url.Content(item.Url)" class="btn btn-sm btn-primary" title="Remove">Preview</a>
+                        <a href="/Employees/Removeitem?EmpId=@ViewBag.Id&type=Doc&id=@item.Id" class="float-right loadPartial" title="Remove">&times; Delete</a>
+                    </div>
+                }
+            }
+
+        </div>
+
+        <div class="card-body">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="d-md-flex">
+                    <div class="col-md-8">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "Document's Title" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+
+
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.ReOrder, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.ReOrder, new { htmlAttributes = new { @class = "form-control", Placeholder = "Serial" } })
+                        @Html.ValidationMessageFor(model => model.ReOrder, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group mt-3 ml-3 pr-3">
+                    <input type="file" class="form-control file-upload" name="FileUpload" id="FileUpload" data-file_types="png|jpg|jpeg|pdf|doc|docx" />
+                    @Html.ValidationMessageFor(model => model.FileUpload, "", new { @class = "text-danger" })
+                </div>
+
+                <input type="hidden" name="Id" value="@ViewBag.Id" />
+                <div class="clearfix">
+                    <a href="/Employees/Details?id=@ViewBag.Id" class="btn btn-sm btn-secondary loadPartial">Details</a>
+                    <input type="submit" value="Upload" class="btn btn-primary float-right" />
+                </div>
+
+            }
+        </div>
+
+    </div>
+</div>

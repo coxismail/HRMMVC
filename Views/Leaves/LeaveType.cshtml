@@ -1,0 +1,69 @@
+﻿@model HRMMVC.Models.LeaveType
+@{
+    var list = ViewBag.LeaveTyps as IEnumerable<HRMMVC.Models.LeaveType>;
+    int i = 0;
+}
+<div class="card">
+    <div class="card-header">
+        Leave Type
+    </div>
+    <div class="card-body">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sl</th>
+                    <th>Title</th>
+                    <th>Emp. Ecedit</th>
+                    <th>Period</th>
+                    <th width="3%"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in list)
+                {
+                    i += 1;
+                    <tr><td>@i</td><td>@item.Title</td><td>@item.EmployeeCredit</td><td>@item.LeavePeriod</td><td><a href="/Leaves/LeaveType?id=@item.Id" class="loadPartial"><i class="fa fa-pencil"></i></a></td></tr>
+                }
+            </tbody>
+        </table>
+
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+            <div class="d-md-flex justify-content-md-between align-items-md-end">
+                <div class="col-md-4">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
+                    <div class="">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.EmployeeCredit, htmlAttributes: new { @class = "control-label" })
+                    <div class="">
+                        @Html.EditorFor(model => model.EmployeeCredit, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.EmployeeCredit, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    @Html.LabelFor(model => model.LeavePeriod, htmlAttributes: new { @class = "control-label" })
+                    <div class="">
+                        @Html.EnumDropDownListFor(model => model.LeavePeriod, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.LeavePeriod, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-2 text-right">
+                    <input type="submit" value="Save" class="btn btn-sm btn-primary" />
+                </div>
+            </div>
+
+        }
+    </div>
+</div>

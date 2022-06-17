@@ -1,0 +1,94 @@
+﻿@model HRMMVC.Models.Ledger
+
+<div class="card">
+    <div class="card-header">
+        Manage Ledger
+    </div>
+    <div class="card-body">
+
+
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+            <div class="d-md-flex justify-content-md-between">
+                <div class="col-md-4">
+                    @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-pencil"></span>
+                        @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-pencil"></span>
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @*<div class="col-md-2">
+                    @Html.LabelFor(model => model.RefNo, htmlAttributes: new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-pencil"></span>
+                        @Html.EditorFor(model => model.RefNo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.RefNo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    @Html.LabelFor(model => model.Ref_Type, htmlAttributes: new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-pencil"></span>
+                        @Html.EditorFor(model => model.Ref_Type, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Ref_Type, "", new { @class = "text-danger" })
+                    </div>
+                </div>*@
+            </div>
+
+
+            <div class="col-12">
+                @Html.LabelFor(model => model.LedgerCategoryId, htmlAttributes: new { @class = "control-label" })
+                <div class="c-input-group"><span class="icon fa fa-hand-o-down"></span>
+                    @Html.DropDownList("LedgerCategoryId", null, "--Ledger Category--", new { @class = "form-control chosen_select" })
+                    @Html.ValidationMessageFor(model => model.LedgerCategoryId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="d-md-flex justify-content-md-between">
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+                    <div class="c-input-group">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label" })
+                    <div class="c-input-group">
+                        @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="clearfix">
+                <input type="submit" value="Save or Update" class="btn btn-sm btn-primary float-right" />
+            </div>
+
+        }
+    </div>
+                <div class="card-footer clearfix">
+                    <a href="/accounting/index" class="btn btn-sm btn-secondary loadPartial">Back</a>
+                    <form class="form-inline ajaxform col-8 float-right" action="/Accounting/GetLedger" method="Post">
+                        @Html.DropDownList("LedgerId", null, "--Select Ledger--", new { @class = "form-control chosen_select", @required = "required" })
+                        <input type="submit" value="Search for Update" class="btn btn-sm btn-info" />
+                    </form>
+                </div>
+            </div>
+<div id="javascript" data-function="ManageLedger"></div>

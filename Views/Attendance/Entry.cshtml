@@ -1,0 +1,41 @@
+﻿
+
+@{
+    ViewBag.Title = "Entry";
+}
+<div class="card">
+    <div class="card-header">
+        Attendance Entry
+    </div>
+    <div class="card-body">
+        <div class="d-md-flex justify-content-between">
+            @Html.DropDownList("DepartmentId", null, "--Department--", new { @class = "form-control", @placeholder = "Department" })
+            @Html.DropDownList("ShiftId", null, "--Shift--", new { @class = "form-control", @placeholder = "Shift" })
+            @Html.DropDownList("DesignationId", new SelectList(""), "--Designation--", new { @class = "form-control", @placeholder = "Designation" })
+            <input type="button" id="SearchButton" value="Search" class="btn btn-sm btn-outline-success" />
+        </div>
+
+
+
+
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div id="searchemployeetable" class="clearfix">
+
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+                <input type="date" name="Date" class="form-control col-md-4 " required />  
+                <input type="submit" value="Submit" id="submit-button" class="btn btn-sm btn-outline-success" />
+            </div>
+        }
+    </div>
+    <div class="card-footer">
+        <a href="/Attendance/" class="loadPartial btn btn-sm btn-secondary">Back To List</a>
+    </div>
+</div>
+
+<div id="javascript" data-function="AttendanceEntry"></div>
+

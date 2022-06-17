@@ -1,0 +1,79 @@
+﻿@model IEnumerable<HRMMVC.Models.EmpLeave>
+    @using HRMMVC.Models;
+
+
+
+    <div class="card">
+        <div class="card-header">Leave Records    </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                Employee Name
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LeaveType)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LeaveFromDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LeaveToDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ApplicationRef)
+                            </th>
+                            <th> Days Count</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @item.Employees.Full_Name
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LeaveType)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LeaveFromDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LeaveToDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ApplicationRef)
+                                </td>
+                                <td>
+                                    @{
+                                        double Totalday = 0;
+                                        for (DateTime index = item.LeaveFromDate; index <= item.LeaveToDate; index = index.AddDays(1))
+                                        {
+                                            if (index.DayOfWeek != DayOfWeek.Friday)
+                                            {
+                                                Totalday += 1;
+                                            }
+                                        }
+                                        // var day = (item.LeaveTo.AddDays(1) - item.LeaveFrom).TotalDays;
+                                    }
+                                    @Totalday
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "EmpLeaveEdit", new { id = item.Id })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+            <div class="card-footer">
+                <a href="@Url.Action("EmpLeaveEntry","Leaves")" class="btn btn-sm btn-primary float-right loadPartial">Leave Entry</a>
+            </div>
+        </div>

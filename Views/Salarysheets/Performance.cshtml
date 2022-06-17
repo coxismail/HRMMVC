@@ -1,0 +1,44 @@
+﻿
+
+
+@{
+    ViewBag.Title = "Entry";
+}
+<div class="card">
+    <div class="card-header">
+        Monthly Performance Entry
+    </div>
+    <div class="card-body">
+        <div class="d-md-flex justify-content-between">
+            @Html.DropDownList("DepartmentId", null, "--Department--", new { @class = "form-control", @placeholder = "Department" })
+            @Html.DropDownList("ShiftId", null, "--Shift--", new { @class = "form-control", @placeholder = "Shift" })
+            @Html.DropDownList("DesignationId", new SelectList(""), "--Designation--", new { @class = "form-control", @placeholder = "Designation" })
+            <input type="button" id="SearchButton" value="Search" class="btn btn-sm btn-outline-success" />
+        </div>
+
+    </div>
+
+    <hr />
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="card-body">
+            <div class="clearfix" id="loademployeetable">
+
+            </div>
+
+        </div>
+        <div class="card-footer clearfix">
+            <a href="@Url.Action("Employee","Employees")" class="btn btn-sm btn-primary loadPartial">Add New Employee</a>
+            <a href="@Url.Action("PrintIds","Employees")" class="btn btn-sm btn-success loadPartial">Print ID Card</a>
+            <a href="@Url.Action("Performance","Salarysheets")" class="btn btn-sm btn-warning loadPartial">Update Performance</a>
+            <a href="@Url.Action("EmpLeaveEntry","Leaves")" class="btn btn-sm btn-danger loadPartial">Leave Entry</a>
+            <a href="@Url.Action("Entry","Attendance")" class="btn btn-sm btn-info loadPartial">Attendance Entry</a>
+            <input type="button" value="Submit" id="submit-button" class="btn btn-sm btn-outline-success disabled float-right" />
+        </div>
+    }
+</div>
+
+        <div id="javascript" data-function="salarysheetsperformance"></div>
+

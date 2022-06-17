@@ -1,0 +1,94 @@
+﻿@model IEnumerable<HRMMVC.Models.DailyAttendance>
+@{
+    ViewBag.Title = "Insert Attendance Record for Full Month";
+       
+    int i = 0;
+}
+<fieldset>
+    <legend> Monthly Attendance Record with Date Wise </legend>
+    <div class="col-md-8 offset-md-2">
+        @using (Html.BeginForm())
+        {
+            @Html.Hidden("EmployeeId", Model.FirstOrDefault().EmployeeId)
+            <table class="" border="1" id="atttable">
+                <thead>
+                    <tr><th width="5%">Sl</th><th width="10%">Date</th><th width="15%">Entry</th><th width="15%">Out</th><th width="10%">is Leave?</th><th width="25%"></th></tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        i += 1;
+                        <tr>
+                            <td> @i</td>
+                            <td>@item.Date.ToString("dd-MMM-yyyy") <input type="hidden" name="Date[]" value="@item.Date" /> </td>
+                            <td>@Html.TextBox("Entry[]",item.Entry,  new { @type="time", @class = "form-control entry" })</td>
+                            <td>@Html.TextBox("Out[]",item.Out,  new {@type="time", @class = "form-control out",  } )</td>
+                            <td class="text-center">@Html.CheckBox("isleave[]",item.IsLeave,  new { @class = "isleave" })</td>
+                            <td>@Html.TextBox("ApplicationRef[]",item.ApplicationRef,  new {@type="text", @class = "form-control reference", @placeholder = "Application Reference No" } )</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="clearfix">
+                <input type="Submit" value="Submit"  class="btn btn-sm btn-outline-success float-right" />
+            </div>
+        }
+
+    </div>
+</fieldset>
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $(".reference").hide();
+
+            $("#atttable").on('change', '.isleave', function () {
+                var is = $(this).is(":checked");
+                var ref = $(this).parent("td").next("td").children(".reference");
+                var out = $(this).parent("td").prev("td").children(".out");
+                var entry = $(this).parent("td").prev("td").prev("td").children(".entry");
+                if (is) {
+                    ref.attr('required', 'required');
+                    ref.show();
+                    out.hide();
+                    entry.hide();
+                }
+                else {
+                    ref.hide();
+                    ref.attr('required', false);
+                    out.show();
+                    entry.show();
+                }
+            });
+
+
+            $("#atttable").on('blur', '.reference', function () {
+                var refno = $(this).val();
+                var date = $(this).parent("td").prev("td").prev("td").prev("td").prev("td").children('input[type="hidden"]').val();
+              
+                var empid = $("#EmployeeId").val();
+
+                var setting = {
+                    url: "/AjaxData/CheckLeaveAppRef?EmployeeId="+empid+"&Date="+date+"&RefNo="+refno,
+                    type: "GET",
+                    beforeSend: function () {
+                        Full_Page_Loading_Open();
+                    }
+                }
+                $.ajax(setting).done(function (res) {
+                    Full_Page_Loading_Close();
+                    if (res == "Not Found") {
+                        window.location = "/Leaves/EmpLeaveEntry";
+                    }
+                    else {
+                        alert(res);
+                    }
+                }).fail(function (ex) {
+                    Full_Page_Loading_Close();
+                    alert(ex.status);
+                })
+            });
+        });
+    </script>
+}

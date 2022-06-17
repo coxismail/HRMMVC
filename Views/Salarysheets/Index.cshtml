@@ -1,0 +1,89 @@
+﻿@model IEnumerable<HRMMVC.Models.Salarysheet>
+@using HRMMVC.Models;
+
+
+<page size="A4" layout="landscape" class="">
+    <div class="d-none-p ">
+        <div class="clearfix">
+            <div class="btn-group float-right mb-2">
+                <button type="button" class="btn btn-default fa fa-plus">@Html.ActionLink("New", "NewPayslip", null, new {@class= "loadPartial" })</button>
+                <button type="button" class="btn btn-info fa fa-print" onclick="window.print()"> Print</button>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="" id="pending_salarysheet" border="1" cellpadding="2" cellspacing="2">
+            <thead>
+                <tr>
+                    <th class="">Sl No.</th>
+                    <th class="">Full Name</th>
+                    <th class="">Designation</th>
+                    <th class="">Salary</th>
+                    <th class="">RPH</th>
+                    <th class="">WD</th>
+                    <th class="">PH</th>
+                    <th class="">O/T H</th>
+                    <th class="">O/T A</th>
+                    <th class="">Full Month?</th>
+                    <th class="">Loan</th>
+                    <th class="">Bonus</th>
+                    <th class="">Deduction </th>
+                    <th class="">Gross Salary</th>
+                    <th class="">Net Salary </th>
+                    <th class="">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{int i = 0; }
+                @foreach (var item in Model)
+                {
+                    i += 1;
+
+                    <tr>
+                        <td>@i</td>
+                        <td>@item.Employee.Full_Name </td>
+                        <td>@item.Designation</td>
+                        <td>@item.BasicSalary</td>
+
+                        @if (item.SalaryType == SalaryTypes.Hourly)
+                        {
+                            <td>@item.Hourly_Duty.RatePerHour</td>
+                            <td>@item.TotalWorkDays</td>
+                            <td>@item.Presents</td>
+                            <td>@item.Hourly_Duty.Overtime_hour</td>
+                            <td>@{ var ota = Convert.ToInt32(item.Hourly_Duty.RatePerHour * item.Hourly_Duty.Overtime_hour);} @ota</td>
+                        }
+                        else
+                        {
+                            <td colspan="5"></td>
+                        }
+                        <td>@item.Pay_Full_Month</td>
+                        <td>@item.Loan</td>
+                        <td>@{var benfits = ((int?)item.AllowancSalary.ToList().Sum(s => s.Benifited_Amount) ?? 0);} @benfits</td>
+                        <td>@item.AdvanceSalaryDeduction.Amount</td>
+                        <td>@item.GrossSalary</td>
+                        <td>@item.NetSalary</td>
+                        <td>
+                            <div class="btn-group">
+                                @{
+
+                                        <a class="btn btn-sm btn-outline-success loadPartial require-confirm" href="/salarysheets/Approve?id=@item.Id"><i class="fa fa-check"></i></a>
+                                        <a class="btn btn-sm btn-outline-info loadPartial" href="/salarysheets/PaySlip?id=@item.Id"><i class="fa fa-info"></i></a>
+                                        <a href="/salarysheets/Delete?Id=@item.Id"  class="btn btn-sm btn-outline-danger loadPartial require-confirm"><i class="fa fa-times"></i></a>
+                                    
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+</page>
+
+

@@ -1,0 +1,160 @@
+﻿@model HRMMVC.Models.Employee
+@{
+    ViewBag.title = "Update - " + Model.Full_Name + " (" + Model.EmployeeCode + ")";
+
+}
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="card">
+    <div class="card-header">
+        @ViewBag.title
+    </div>
+    <div class="card-body">
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", @class = "ajaxform" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(m => m.Id)
+            <div class="d-md-flex">
+                <div class="col-md-4">
+                    <fieldset>
+                        <legend>Basic Information</legend>
+                        <div class="c-input-group">
+                            <span class="icon fa fa-pencil"></span>
+                            @Html.EditorFor(model => model.Full_Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Full Name" } })
+                            @Html.ValidationMessageFor(model => model.Full_Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="c-input-group">
+                            <span class="icon fa fa-pencil"></span>
+                            @Html.EditorFor(model => model.Father_Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Father Name" } })
+                            @Html.ValidationMessageFor(model => model.Father_Name, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="c-input-group">
+                            <span class="icon fa fa-pencil"></span>
+                            @Html.EditorFor(model => model.Mother_Name, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mother Name" } })
+                            @Html.ValidationMessageFor(model => model.Mother_Name, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="c-input-group">
+                            <span class="icon fa fa-pencil"></span>
+                            @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control", @placeholder = "Date of Birth", @title = "Date of Birth" } })
+                            @Html.ValidationMessageFor(model => model.DateOfBirth, "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <div class="c-input-group">
+                            @Html.EnumDropDownListFor(model => model.Gender, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="c-input-group">
+                            @Html.EnumDropDownListFor(m => m.BloodGroup, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.BloodGroup, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="c-input-group">
+                            @Html.EditorFor(model => model.NationalId, new { htmlAttributes = new { @class = "form-control", @placeholder = "National Id" } })
+                            @Html.ValidationMessageFor(model => model.NationalId, "", new { @class = "text-danger" })
+                            @Html.ValidationMessage("NationalIdExist", new { @class = "text-danger" })
+
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-md-4">
+                    <fieldset>
+                        <legend>Contact Information</legend>
+                        <div class="c-input-group">
+                            <span class="icon fa fa-pencil"></span>
+                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @placeholder = "Email Address" } })
+
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="c-input-group">
+                            <span class="icon fa fa-phone"></span>
+                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @title = "Phone", @class = "form-control", @placeholder = "Phone" } })
+                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="c-input-group">
+                            <span class="icon fa fa-phone"></span>
+                            @Html.EditorFor(model => model.Phone1, new { htmlAttributes = new { @class = "form-control", @placeholder = "Phone1" } })
+                            @Html.ValidationMessageFor(model => model.Phone1, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="c-input-group">
+                            <span class="icon fa fa-phone"></span>
+                            @Html.EditorFor(model => model.Phone2, new { htmlAttributes = new { @title = "Phone", @class = "form-control", @placeholder = "Phone2" } })
+                            @Html.ValidationMessageFor(model => model.Phone2, "", new { @class = "text-danger" })
+                        </div>
+
+
+                    </fieldset>
+                    <fieldset>
+                        <legend>Picture</legend>
+                        <div class="col-md-8 d-flex flex-column">
+                            @{
+                                var imagePath = Model.ImageUrl ?? "~/Assets/Images/person.jpg";
+                            }
+                            <img src="@Url.Content(imagePath)" class="thumnail img-thumbnail" id="UpoladedImage" alt="avatar" style="width: 150px; height: 130px; margin-bottom: 15px;">
+                            <div id="upload_alert" class="clearfix upload_alert"></div>
+                            <input type="file" class="text-center center-block file-upload" name="ImageUpload" accept="image/*" id="ImageUpload" file_types="png|jpg|jpeg" />
+                            @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-md-4">
+                    <fieldset>
+                        <legend>Professional Information</legend>
+                        <div class="c-input-group">
+                            <span class="icon fa fa-id-card"></span>
+                            @Html.EditorFor(model => model.EmployeeId, new { htmlAttributes = new { @class = "form-control", @placeholder = "Employee Id" } })
+                            @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="c-input-group">
+                            <span class="icon fa fa-pencil"></span>
+                            @Html.DropDownList("DepartmentId", null, "--Department--", new { @class = "form-control", @placeholder = "Department" })
+                        </div>
+                        <div class="c-input-group">
+                            <span class="icon fa fa-pencil"></span>
+                            @Html.DropDownList("ShiftId", null, "--Shift--", new { @class = "form-control", @placeholder = "Shift" })
+                            @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="c-input-group">
+                            <span class="icon fa fa-pencil"></span>
+                            @Html.DropDownListFor(model => model.DesignationId, ViewBag.DesignationId as SelectList, new { @class = "form-control", @placeholder = "Designation" })
+                            @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="c-input-group">
+                            <span class="icon fa fa-pencil"></span>
+                            @Html.EnumDropDownListFor(model => model.EmpType, htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.EmpType, "", new { @class = "text-danger" })
+                        </div>
+
+
+                        <div class="c-input-group">
+                            @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control", @placeholder = "Notes" } })
+                            @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                        </div>
+
+                    </fieldset>
+                </div>
+            </div>
+            <hr />
+            <note>
+                ** Please Match Case according to your choice
+            </note>
+
+            <div class="card-footer">
+                <a href="@Url.Action("Details","Employees", new { id= Model.Id})" class="btn-sm btn btn-secondary loadPartial">Back Profile</a>
+                <button type="submit" class="btn btn-sm btn-success float-right" value="Update & Continue">Save & Continue</button>
+            </div>
+        }
+
+
+    </div>
+</div>
+
+
+
+
+<div id="javascript" data-function="EmployeeUpdate"></div>

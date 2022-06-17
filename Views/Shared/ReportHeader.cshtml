@@ -1,0 +1,20 @@
+﻿@using HRMMVC.Manager
+
+<div class="clearfix text-center mb-2">
+    <h5 class="company-title">  @Settings.Company.Name</h5>
+    <p style="" class="address">
+        @Settings.Company.Address <br />
+        @Settings.Company.City,
+        @Settings.Company.State,
+        @Settings.Company.Country
+    </p>
+    <p class="contact-info" style="margin-bottom: 0px;">Phone : @Settings.Company.Phone  Email :   @Settings.Company.Email</p>
+    @if (!string.IsNullOrEmpty(ViewBag.PageTitle))
+    {
+        <strong class="page-title">@ViewBag.PageTitle</strong>
+        if (!string.IsNullOrWhiteSpace(ViewBag.Preiod))
+        {
+          <br />  <span class="period">@ViewBag.Preiod</span>
+        }
+    }
+</div>

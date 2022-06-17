@@ -1,0 +1,164 @@
+﻿@model IEnumerable<HRMMVC.Models.Salarysheet>
+@using HRMMVC.Models;
+
+@section Styles{
+    <style>
+        #pending_salarysheet thead tr {
+            height: 140px;
+        }
+
+        table {
+            table-layout: initial;
+        }
+
+        th {
+            width: 2px;
+            white-space: nowrap;
+            padding: 1px 3px !important;
+            font-size: 12px;
+        }
+
+            td:nth-child(1), th:nth-child(1) {
+                max-width: 30px !important;
+            }
+
+        td {
+            width: 1px;
+            white-space: nowrap;
+            padding: 1px 1px !important;
+            font-size: 12px;
+        }
+
+        .rotate {
+            transform: rotate(90deg) !important;
+            white-space: nowrap;
+            margin: 0px;
+            text-align: left !important;
+            height: auto;
+            width: auto;
+        }
+
+        .page-landscape {
+            width: 29.7cm !important;
+            min-height: 21cm;
+            padding: 1cm;
+            margin: 1cm auto;
+            border: 1px #D3D3D3 solid;
+            border-radius: 5px;
+            font-size: 13px;
+            background: white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+}
+<div class="page-landscape">
+    <div class="d-none-p ">
+        <div class="clearfix">
+            <div class="btn-group float-right mb-2">
+                <button type="button" class="btn btn-info fa fa-print" onclick="window.print()"> Print</button>
+            </div>
+        </div>
+
+    </div>
+    <table class="" id="pending_salarysheet" border="1" cellpadding="2" cellspacing="2">
+        <thead>
+            <tr>
+                <th class="rotate">Sl No.</th>
+                <th class="rotate">Full Name</th>
+                <th class="rotate">Designation</th>
+                <th class="rotate">Salary</th>
+                <th class="rotate">Rate Per Hour</th>
+                <th class="rotate">Working Days</th>
+                <th class="rotate">Present (Hour)</th>
+                <th class="rotate">O/T (Hour)</th>
+                <th class="rotate">O/T (Amount)</th>
+                <th class="rotate">Full Month?</th>
+                <th class="rotate">Loan</th>
+                <th class="rotate">Bonus</th>
+                <th class="rotate">Deduction </th>
+                <th class="rotate">Gross Salary</th>
+                <th class="rotate">Net Salary </th>
+                <th class="rotate">HandOver</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int i = 1; }
+            @foreach (var item in Model)
+            {
+
+
+                <tr>
+                    <td>@i</td>
+                    <td>@item.Employee.Full_Name  </td>
+                    <td>@item.Designation</td>
+                    <td>@item.BasicSalary</td>
+
+                    @if (item.SalaryType == SalaryTypes.Hourly)
+                    {
+                        <td>@item.Hourly_Duty.RatePerHour</td>
+                        <td>@item.TotalWorkDays</td>
+                        <td>@item.Presents</td>
+                        <td>@item.Hourly_Duty.Overtime_hour</td>
+                        <td>@{ var ota = Convert.ToInt32(item.Hourly_Duty.RatePerHour * item.Hourly_Duty.Overtime_hour);} @ota</td>
+                    }
+                    else
+                    {
+                        <td colspan="5"></td>
+                    }
+                    <td>@item.Pay_Full_Month</td>
+                    <td>@item.Loan</td>
+                    <td>@{var benfits = ((decimal?) item.Benifits.Sum(s=>s.Benifited_Amount));} @benfits</td>
+                    <td>@item.Deduction_History.Amount</td>
+                    <td>@item.GrossSalary</td>
+                    <td>@item.NetSalary</td>
+                    <td>
+                        @*<div class="btn-group">
+                            @{
+                                if (User.IsInRole("Company Admin"))
+                                {
+                                    <a class="btn btn-sm btn-outline-success" data-val="@item.Id" href="#" id="handOverButton"><i class="fa fa-check">Hand Over</i></a>
+                                    <a class="btn btn-sm btn-outline-info" href="/salarysheets/PaySlip?id=@item.Id"><i class="fa fa-info"></i></a>
+                                }
+                            }
+                        </div>*@
+                    </td>
+                </tr>
+            }
+
+
+
+        </tbody>
+    </table>
+
+
+</div>
+
+@section scripts{
+    
+    <script>
+        $(document).ready(function () {
+            $("#handOverButton").click(function () {
+                var val = $(this).attr('data-val');
+                var setting = {
+                    url: "/salarysheets/Salary_handOver?id=" + val,
+                    type: "POST",
+                }
+                swal({
+                    title: "Are you sure? ",
+                    text: "If you choice yes it will make transaction automatically",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((isConfirm) => {
+                        if (isConfirm) {
+                            $.ajax(setting).done(function (res) {
+                                window.location.reload();
+                            })
+                        }
+                    });
+            });
+        });
+       
+    </script>
+    }

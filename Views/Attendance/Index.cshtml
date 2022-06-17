@@ -1,0 +1,44 @@
+﻿@model IEnumerable<HRMMVC.Models.DailyAttendance>
+
+@{
+    ViewBag.Title = "Attendance";
+
+}
+
+<div class="card">
+    <div class="card-header">
+        Attendance  <div class="float-right"> <input type="date" id="checkAttendance" class="form-control" required /></div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table" id="attendance_Table">
+                <thead>
+                    <tr>
+                        <th>Sl</th>
+                        <th>
+                            Employee
+                        </th>
+                        <th>
+                            Entry
+                        </th>
+                        <th>
+                            Out
+                        </th>
+                        <th>
+                            Duration
+                        </th>
+                        <th>Entry Count</th>
+
+                    </tr>
+                </thead>
+
+            </table>
+        </div>
+    </div>
+    <div class="card-footer">
+        <a href="/Attendance/Entry" class="loadPartial btn btn-sm btn-primary float-right">Entry</a>
+    </div>
+</div>
+
+
+<div id="javascript" data-function="AttendanaceIndex"></div>

@@ -1,0 +1,89 @@
+﻿@model HRMMVC.Models.TransactionViewModel
+<div class="col-md-10 offset-md-1">
+    <div class="card">
+
+        <div class="card-body">
+            @Html.Partial("ReportHeader")
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="d-sm-flex justify-content-sm-between">
+                    <div class="col-sm-4"></div>
+                    <div class="col-md-3">
+                        <div class="c-input-group">
+                            <span class="icon fa fa-hand-o-down"></span>
+                            @Html.DropDownListFor(m => m.VoucherType, null, "--Voucher--", new { @class = "form-control" })
+
+                        </div>
+                    </div>
+                    <div class="col-sm-4 no-padding">
+                        <div class="c-input-group">
+                            <span class="icon fa fa-calendar"></span>
+                            @Html.EditorFor(m => m.TransactionDate, new { htmlAttributes = new { @class = "form-control" } })
+
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="transvouchertable" class="table table-bordered">
+                        <thead>
+                            <tr><th width="40px">Sl</th><th>Ledger (Code)</th><th width="100px">Debit</th><th width="100px">Credit</th><th width="40px"></th></tr>
+                        </thead>
+                        <tbody></tbody>
+                        <tfoot>
+                            <tr><td colspan="2" class="text-right">Total</td><td id="totalDebit" class="text-right"></td> <td class="text-right" id="totalCredit"></td><td></td></tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="clearfix mb-3">
+                    <div class="d-sm-flex justify-content-sm-between">
+                        <div class="col-sm-6 no-padding">
+                            @Html.DropDownList("LedgerId", null, "--Select Ledger--", new { @class = "form-control chosen_select" })
+                        </div>
+                        <div class="col-sm-3">
+                            <input type="number" id="transAmount" placeholder="00000.00" class="form-control" />
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="radio" class="transtype" name="Type" id="Dr" value="Dr" />
+                            <label for="Dr">Dr. &nbsp;</label>
+                            <input type="radio" class="transtype" name="Type" id="Cr" value="Cr" />
+                            <label for="Cr">Cr. &nbsp;</label>
+                        </div>
+                        <div class="col-sm-1 text-right no-padding">
+                            <button type="button" id="add-button" class="btn btn-sm btn-primary">+Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix">
+                    @Html.LabelFor(f => f.Narration, htmlAttributes: new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-pencil"></span>
+                        @Html.EditorFor(m => m.Narration, new { htmlAttributes = new { @class = "form-control" } })
+
+                    </div>
+                </div>
+
+
+                <div class="clearfix">
+                    @Html.ValidationMessageFor(m => m.VoucherType, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(m => m.TransactionDate, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(m => m.Narration, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="clearfix mt-4">
+                    <input type="submit" id="trans-submit-btn" value="Submit" class="btn btn-sm btn-success float-right" />
+                </div>
+            }
+        </div>
+
+
+        <div class="card-footer">
+            <a href="/Accounting/index" class="loadPartial btn btn-sm btn-secondary">Back</a>
+        </div>
+    </div>
+</div>
+
+
+<div id="javascript" data-function="newTransactionVoucher"></div>

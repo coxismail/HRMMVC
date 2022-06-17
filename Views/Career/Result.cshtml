@@ -1,0 +1,25 @@
+﻿
+<div class="container">
+    <div class="col-md-6 offset-md-3">
+        <fieldset>
+            <legend>Search Result</legend>
+            @using (Html.BeginForm())
+            {@Html.AntiForgeryToken() <select name="Type" class="form-control">
+                <option value="Preliminary">Preliminary</option>
+                <option value="Viva">Viva</option>
+            </select>
+            <select name="dfdfd" class="form-control">
+                <option>--Select Post--</option>
+                <option value="Preliminary">Assistant manager</option>
+                <option value="Viva">General Manager</option>
+            </select>
+            <input type="number" name="Id" class="form-control" placeholder="Application Number" />
+            <input type="text" name="Key" class="form-control" placeholder="****" />
+            <input type="submit" value="Search" class="btn btn-sm btn-primary" />
+            <div class="alert">
+                @ViewBag.Message
+            </div>
+        }
+        </fieldset>
+    </div>
+</div>

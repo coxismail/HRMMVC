@@ -1,0 +1,151 @@
+﻿@model HRMMVC.Models.Other_setting
+@{
+    ViewBag.Title = "Sytem Settings";
+}
+
+    <style type="text/css">
+        label {
+            margin-bottom: 0px;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+            .switch input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+            }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 26px;
+                width: 26px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+        input:checked + .slider {
+            background-color: green;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+    </style>
+
+
+
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">
+            System Settings
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.Id)
+                <table class="table table-bordered" id="other_setting_table">
+
+                    <tr>
+                        <td>@Html.DisplayNameFor(f => f.LayoutVersion)</td>
+                        <td>
+                            @Html.EditorFor(m => m.LayoutVersion)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(f => f.Custom_Date_Selection)</td>
+                        <td>
+                            <label class="switch">
+                                @Html.EditorFor(m => m.Custom_Date_Selection, new { @class = "checkbox" })
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(f => f.RequireAttendance)</td>
+                        <td>
+                            <label class="switch">
+                                @Html.EditorFor(m => m.RequireAttendance, new { @class = "checkbox" })
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(f => f.WorkingHour)</td>
+                        <td>
+                            @Html.EditorFor(m => m.WorkingHour)
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>@Html.DisplayNameFor(f => f.OfficeStartTime)</td>
+                        <td>
+                            @Html.EditorFor(m => m.OfficeStartTime)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(f => f.OfficeEndTime)</td>
+                        <td>
+                            @Html.EditorFor(m => m.OfficeEndTime)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(f => f.WeekEnd)</td>
+                        <td>
+                            @Html.EnumDropDownListFor(m => m.WeekEnd)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(f => f.ComWeekEnd)</td>
+                        <td>
+                            @Html.EnumDropDownListFor(m => m.ComWeekEnd)
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="clearfix">
+                    <input type="submit" value="Save Setting" class="btn btn-sm btn-outline-warning float-right" />
+                </div>
+            }
+        </div>
+        <div class="card-footer">
+            <a href="/setup/" class="loadPartial btn btn-sm btn-secondary">Go to Basic Requirement</a>
+        </div>
+    </div>
+</div>
+<div id="javascript" data-function="SettingOther"></div>

@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Backkup Data base";
+}
+
+
+<fieldset>
+    <legend>back up Database</legend>
+
+    <div class="col-md-6 offset-md-3 pt-4">
+        <div class="clearfix">
+            <input type="button" value="Take Backup copy" id="backupbtn" class="btn btn-lg btn-outline-warning" />
+        </div>
+    </div>
+</fieldset>
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#backupbtn").click(function () {
+                var con = confirm("Are You really want to make backup copy your database?");
+                if (con) {
+                    var setting = {
+                        url: "/Setting/MakeDbBackUpCopy",
+                        type: "POST",
+                        beforeSend: function () {
+                            Full_Page_Loading_Open();
+                        },
+                        error: function (ex) {
+                            Full_Page_Loading_Close();
+                            alert(ex.StatusText);
+                        }
+                    }
+                    $.ajax(setting).done(function (res) {
+                        alert(res);
+                        Full_Page_Loading_Close();
+                    });
+                }
+            })
+        })
+    </script>
+
+
+    }

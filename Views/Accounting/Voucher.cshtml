@@ -1,0 +1,47 @@
+﻿@model HRMMVC.Models.Voucher
+<div class="card">
+    <div class="card-header">
+        Manage Voucher
+    </div>
+    <div class="card-body">
+
+
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+        <div class="d-md-flex justify-content-md-between">
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+                <div class="c-input-group">
+                    <span class="icon fa fa-pencil"></span>
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.VoucherNo, htmlAttributes: new { @class = "control-label" })
+                <div class="c-input-group">
+                    <span class="icon fa fa-sort-numeric-asc"></span>
+                    @Html.EditorFor(model => model.VoucherNo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.VoucherNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+            <div class="clearfix">
+                <input type="submit" value="Save" class="btn btn-sm btn-primary float-right" />
+            </div>
+
+        }
+
+    </div>
+    <div class="card-footer">
+        <a href="/accounting/index" class="btn btn-sm btn-secondary loadPartial">Back</a>
+        <form class="form-inline ajaxform col-8 float-right" action="/Accounting/GetVoucher" method="Post">
+            @Html.DropDownList("VoucherId", null, "--Select Voucher--", new { @class = "form-control chosen_select", @required = "required" })
+            <input type="submit" value="Search for Update" class="btn btn-sm btn-info" />
+        </form>
+    </div>
+</div>

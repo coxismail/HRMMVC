@@ -1,0 +1,189 @@
+﻿@model HRMMVC.Models.EmailConfig
+
+@{
+    ViewBag.Title = "Mail Configuration";
+    List<SelectListItem> items = new List<SelectListItem>();
+    items.Add(new SelectListItem()
+    {
+        Text = "HTML",
+        Value = "html"
+    });
+    items.Add(new SelectListItem()
+    {
+        Text = "Text",
+        Value = "text"
+    });
+}
+@section Styles{
+    <style>
+        .req {
+            color: red;
+        }
+
+        .input-group-prepend {
+            width: 150px;
+            font-weight: 500;
+            font-family: revert;
+        }
+
+        .switch-field {
+            display: flex;
+            overflow: hidden;
+        }
+
+            .switch-field input {
+                position: absolute !important;
+                clip: rect(0, 0, 0, 0);
+                height: 1px;
+                width: 1px;
+                border: 0;
+                overflow: hidden;
+            }
+
+            .switch-field label {
+                background-color: #e4e4e4;
+                color: rgba(0, 0, 0, 0.6);
+                font-size: 14px;
+                line-height: 1;
+                text-align: center;
+                padding: 8px 16px;
+                margin-right: -1px;
+                border: 1px solid rgba(0, 0, 0, 0.2);
+                box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+                transition: all 0.1s ease-in-out;
+            }
+
+                .switch-field label:hover {
+                    cursor: pointer;
+                }
+
+            .switch-field input:checked + label {
+                background-color: #008000;
+                color: white;
+                font-weight: 500;
+                box-shadow: none;
+            }
+
+            .switch-field label:first-of-type {
+                border-radius: 4px 0 0 4px;
+            }
+
+            .switch-field label:last-of-type {
+                border-radius: 0 4px 4px 0;
+            }
+    </style>
+}
+
+<fieldset>
+    <legend>Email Configuration</legend>
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        <div class="col-md-8 offset-md-2">
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    @Html.LabelFor(model => model.Protocol, htmlAttributes: new { @class = "control-label" })
+                </div>
+                @Html.EditorFor(model => model.Protocol, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Protocol, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    @Html.LabelFor(model => model.SmtpHost, htmlAttributes: new { @class = "control-label" })
+                </div>
+                @Html.EditorFor(model => model.SmtpHost, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SmtpHost, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    @Html.LabelFor(model => model.SmtpPort, htmlAttributes: new { @class = "control-label" })
+                </div>
+                @Html.EditorFor(model => model.SmtpPort, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SmtpPort, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    @Html.LabelFor(model => model.SenderMail, htmlAttributes: new { @class = "control-label" })
+                </div>
+                @Html.EditorFor(model => model.SenderMail, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SenderMail, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
+                </div>
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+
+
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    @Html.LabelFor(model => model.MailType, htmlAttributes: new { @class = "control-label" })
+                </div>
+                @Html.DropDownListFor(model => model.MailType, new SelectList(items, "value", "Text"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MailType, "", new { @class = "text-danger" })
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <label class="control-label">Payment</label>
+                </div>
+                <div class="switch-field">
+                    <input type="radio" id="mailp-one" name="payAsk" value="yes" checked />
+                    <label for="mailp-one">Yes</label>
+                    <input type="radio" id="mailp-two" name="payAsk" value="no" />
+                    <label for="mailp-two">No</label>
+                </div>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <label class="control-label">Received</label>
+                </div>
+                <div class="switch-field">
+                    <input type="radio" id="mrecone" name="recAsk" value="yes" />
+                    <label for="mrecone">Yes</label>
+                    <input type="radio" id="mrectwo" name="recAsk" value="no" checked />
+                    <label for="mrectwo">No</label>
+                </div>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <label class="control-label">Invoice</label>
+                </div>
+                <div class="switch-field">
+                    <input type="radio" id="minvAsk" name="invAsk" value="yes" />
+                    <label for="minvAsk">Yes</label>
+                    <input type="radio" id="minvAskt" name="invAsk" value="no" checked />
+                    <label for="minvAskt">No</label>
+                </div>
+            </div>
+            <div class="clearfix">
+                <input type="submit" value="Update Setting" class="btn btn-outline-success float-right" />
+            </div>
+        </div>
+
+    }
+</fieldset>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(".control-label").each(function () {
+                var text = $(this).text();
+                $(this).parent("div").next("input").attr('placeholder', text);
+            });
+
+        });
+    </script>
+}
+

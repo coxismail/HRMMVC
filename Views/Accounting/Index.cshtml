@@ -1,0 +1,56 @@
+﻿<div class="card">
+    <div class="card-body">
+        <div class="col-md-8 offset-md-2 text-center">
+            <a href="/Accounting/Category" class="loadPartial btn btn-sm btn-primary">Manage Category</a>
+            <a href="/Accounting/Ledger" class="loadPartial btn btn-sm btn-dark">Manage Ledger</a>
+            <a href="/Accounting/Voucher" class="loadPartial btn btn-sm btn-danger">Voucher Type</a>
+            <a href="/Accounting/NewVoucher" class="loadPartial btn btn-sm btn-success">New Voucher </a>
+        </div>
+
+
+
+        <div class="dropdown-divider"> </div>
+
+        <div class="col-md-8 offset-md-2">
+            <div class="c-input-group">
+                <span class="icon fa fa-hand-o-right">                </span>
+                <select class="form-control" id="account_index_go_to">
+                    <option>-- Go to --</option>
+                    <option value="balance">Balance Sheet</option>
+                    <option value="profitloss">Profit & Loss</option>
+                    <option value="ledger">Ledger Report</option>
+                    <option value="category">Category Report</option>
+                    <option value="choa">Chart of Account</option>
+                    <option value="AllVoucher">All Voucher</option>
+                    
+                </select>
+              
+            </div>
+         
+            <div class="clearfix">
+                @Html.DropDownList("LedgerCategory", null, "--Ledger Category-", new { @class = "form-control chosen_select" })
+                @Html.DropDownList("Ledger", null, "--Ledger--", new { @class = "form-control chosen_select" })
+                @Html.DropDownList("ChartofAccount", null, "--Chart of Acc.--", new { @class = "form-control" })
+
+                <div class="d-md-flex justify-content-md-between">
+                    <div class="col-md-5 from-date-field no-padding">
+                        <label for="fromdate" class="control-label">From</label>
+                        <input type="date" class="form-control" id="fromDate" />
+                    </div>
+                    <div class="col-md-5 to-date-field no-padding">
+                        <label for="toDate" class="control-label">To</label>
+                        <input type="date" class="form-control" id="toDate" />
+                    </div>
+                </div>
+
+
+               
+            </div>
+            <div class="clearfix text-center">
+                <button class="btn btn-lg btn-info" id="account_index_go_button">Report</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="javascript" data-function="AccountingIndex"></div>

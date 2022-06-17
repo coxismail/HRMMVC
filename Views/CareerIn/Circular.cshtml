@@ -1,0 +1,61 @@
+﻿@model HRMMVC.Models.Circular
+
+<div class="card">
+    <div class="card-header">
+       @ViewBag.PageTitle
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.Id)
+
+            <div class="col-12">
+                @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label" })
+                <div class="c-input-group">
+                    <span class="icon fa fa-pencil"></span>
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="d-md-flex justify-content-md-between">
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.StartFrom, htmlAttributes: new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-calendar"></span>
+                        @Html.EditorFor(model => model.StartFrom, new { htmlAttributes = new { @type = "datetime-local", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.StartFrom, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    @Html.LabelFor(model => model.Deadline, htmlAttributes: new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-calendar"></span>
+                        @Html.EditorFor(model => model.Deadline, new { htmlAttributes = new { @type = "datetime-local", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Deadline, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="col-12">
+                @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label" })
+                <div class="c-input-group">
+                    <span class="icon fa fa-pencil"></span>
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+
+            <div class="clearfix">
+                <input type="submit" value="Next" class="btn btn-primary float-right" />
+            </div>
+
+        }
+
+    </div>
+</div>

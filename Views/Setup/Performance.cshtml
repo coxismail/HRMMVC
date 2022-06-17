@@ -1,0 +1,58 @@
+﻿@model IEnumerable<HRMMVC.Models.PerformanceBonus>
+@using HRMMVC.Models
+@{
+
+    int i = 0;
+}
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-header">
+            Performance Bonus Setup
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+            {
+                @Html.AntiForgeryToken()
+            <table class="table table-bordered">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Performance<input type="hidden" name="Performance[@i]" value="@item.Performance" /></td>
+                        <td><input type="number" value="@item.Amount" name="Amount[@i]" /></td>
+                        <td>
+
+
+                            @if (item.IsPercent == true)
+                            {
+                                <input type="hidden" value="true" name="IsPercent[@i]" />
+                                <input id="@item.Performance" checked type="checkbox" onchange="$(this).prev('input').val(this.checked ? true : false);" name="IsPercent[@i]" />
+                            }
+                            else
+                            {
+                                <input type="hidden" value="false" name="IsPercent[@i]" />
+                                <input id="@item.Performance" value="false" type="checkbox" onchange="$(this).prev('input').val(this.checked ? true : false);" name="IsPercent[@i]" />
+                            }
+                            <label for="@item.Performance">% of Basic Salary</label>
+                        </td>
+                    </tr>
+                    i += 1;
+                }
+            </table>
+            <div class="clearfix">
+                <input type="submit" value="Save" class="btn btn-sm btn-primary float-right"/>
+            </div>
+            }
+        </div>
+        <div class="card-footer">
+            <a href="/salarysheets/Performance" class="btn btn-sm btn-secondary loadPartial"> Performance Entry</a>
+            @if (Model.Count() > 0)
+            {
+                var d = Model.FirstOrDefault();
+                var da = "Last Updated by " + d.UpdatedBy + "  at " + d.LastUpdated.ToString("dd-MMM-yyyy hh:mm tt");
+                <span>@da</span>
+            }
+
+        </div>
+    </div>
+</div>
+<div id="javascript" data-function="SetupPerformance"></div>

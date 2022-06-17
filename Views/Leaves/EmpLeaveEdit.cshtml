@@ -1,0 +1,54 @@
+﻿@model HRMMVC.Models.EmpLeave
+
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+    <div class="card-body d-flex" style="background-color:beige;">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.LeaveType, htmlAttributes: new { @class = "control-label" })
+
+                @Html.EnumDropDownListFor(model => model.LeaveType, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.LeaveType, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ApplicationRef, htmlAttributes: new { @class = "control-label" })
+
+                @Html.EditorFor(model => model.ApplicationRef, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ApplicationRef, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="form-group">
+                @Html.DropDownListFor(model => model.EmployeeId, new SelectList(ViewBag.EmployeesId, "Value", "Text"), "Select Employee", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.LeaveFromDate, htmlAttributes: new { @class = "control-label" })
+
+                @Html.EditorFor(model => model.LeaveFromDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LeaveFromDate, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LeaveToDate, htmlAttributes: new { @class = "control-label" })
+                @Html.EditorFor(model => model.LeaveToDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LeaveToDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="clearfix">
+            <input type="submit" id="submit" value="Save" class="btn btn-outline-primary float-right" />
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

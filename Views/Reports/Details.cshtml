@@ -1,0 +1,61 @@
+﻿@model HRMMVC.Models.Transaction
+@using HRMMVC.Models
+<page size="A4" class="p-5">
+    @Html.Partial("ReportHeader")
+    <div class="col-11 mx-auto">
+        <div class="row justify-content-between">
+            <div class="w-20"><strong>@Html.DisplayFor(m => m.VoucherType)</strong> : @Html.DisplayFor(m => m.VoucherNo)</div>
+            <div class="w-20">
+                <strong>DATE</strong> : @TimeZoneInfo.ConvertTimeFromUtc(Model.TransactionDate, User.Identity.TimeZone()).ToString("dd/MM/yyyy")
+            </div>
+        </div>
+    </div>
+
+    <table class="table report">
+        <thead class="report-header">
+            <tr>
+                <th style="text-align: center;"><label>Particulars</label></th>
+                <th style="text-align: center; width:3cm"><label>Ledger No.</label></th>
+                <th style="text-align: center; width:3.5cm"><label>DEBIT AMOUNT</label></th>
+                <th style="text-align: center; width:3.5cm"><label>CREDIT AMOUNT</label></th>
+            </tr>
+        </thead>
+        <tbody class="report-body">
+            @foreach (var item in Model.TransDetails)
+            {
+                <tr class="">
+                    <td>@Html.DisplayFor(m => item.LedgerName)</td>
+                    <td>@Html.DisplayFor(m => item.LedgerCode)</td>
+                    <td>@Html.DisplayFor(m => item.Debit)</td>
+                    <td>@Html.DisplayFor(m => item.Credit)</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot class="report-footer-summary">
+            <tr>
+                <td><strong>@Html.DisplayFor(m => m.Narration)</strong></td>
+                <td style="text-align: right;"><strong>Total :</strong></td>
+                <td><label style="border-bottom:double  #808080">@Html.DisplayFor(m => m.Amount)</label></td>
+                <td><label style="border-bottom:double  #808080">@Html.DisplayFor(m => m.Amount)</label></td>
+            </tr>
+        </tfoot>
+    </table>
+    <br />
+    <div class="col-11 mx-auto">
+        <div class="row justify-content-between text-center signature_section">
+            <div class="w-20"><br /><strong style="border-top:solid 1px  #808080">Received By</strong></div>
+            <div class="w-25">@ViewBag.username<br /><strong style="border-top:solid 1px  #808080">Prepared By</strong></div>
+            <div class="w-20"><br /><strong style="border-top:solid 1px  #808080">Checked By</strong></div>
+            <div class="w-20"><br /><strong style="border-top:solid 1px  #808080">Authorized By</strong></div>
+        </div>
+    </div>
+    <div class="d-none-p">
+        <div class="card-footer clearfix">
+            <div class="btn-group right">
+                <a href="/Accounting/Index" class="loadPartial btn btn-sm btn-secondary">Back</a>
+                <button type="button" onclick="print()" class="btn btn-sm btn-outline-primary button button4"> Print </button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    </div>

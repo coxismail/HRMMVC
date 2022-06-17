@@ -1,0 +1,49 @@
+﻿@model HRMMVC.Models.EmpResignViewModel
+
+@{
+    ViewBag.Title = "Resign";
+
+}
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">
+            Resignation
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", @class="ajaxform" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="cleafix">
+                    <div class="">
+                        @Html.LabelFor(model => model.EmployeeId, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(model => model.EmployeeId, null, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="">
+                        @Html.LabelFor(model => model.Casues, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Casues, new { htmlAttributes = new { @class = "form-control", Placeholder = "Resign Cause" } })
+                        @Html.ValidationMessageFor(model => model.Casues, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="">
+                        @Html.LabelFor(model => model.LeaveTime, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.LeaveTime, new { htmlAttributes = new { @type = "datetime-local", @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LeaveTime, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+                <div class="mt-3">
+                    <input type="file" class="form-control file-upload" name="FileUpload" id="FileUpload" data-file_types="png|jpg|jpeg|pdf|doc|docx" />
+                    @Html.ValidationMessageFor(model => model.FileUpload, "", new { @class = "text-danger" })
+                </div>
+                <div class="clearfix">
+                    <a href="/Employees/index" class="btn btn-sm btn-secondary loadPartial" >Back list</a>
+                    <input type="submit" value="Save" class="btn btn-primary float-right" />
+                </div>
+
+            }
+        </div>
+
+    </div>
+</div>
+

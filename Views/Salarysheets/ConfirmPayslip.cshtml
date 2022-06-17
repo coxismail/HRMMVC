@@ -1,0 +1,280 @@
+﻿@model HRMMVC.Models.Salarysheet
+@using HRMMVC.Models;
+
+<page size="A4" class="p-4">
+    <div class="card">
+        <div class="card-header">
+            Confirm Pay slip
+        </div>
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+        {
+
+
+            @Html.AntiForgeryToken()
+
+            @Html.HiddenFor(model => model.Absence)
+            @Html.HiddenFor(model => model.Presents)
+            @Html.HiddenFor(model => model.SalaryType)
+            @Html.HiddenFor(model => model.ToDate)
+            @Html.HiddenFor(model => model.FromDate)
+            @Html.HiddenFor(model => model.GrossSalary)
+            @Html.HiddenFor(model => model.Hourly_Duty)
+            @Html.HiddenFor(model => model.NetSalary)
+            @Html.HiddenFor(model => model.OverTime_Rate)
+            @Html.HiddenFor(model => model.Paid_Leave)
+            @Html.HiddenFor(model => model.PayForDays)
+            @Html.HiddenFor(model => model.Overtime_day)
+            @Html.HiddenFor(model => model.Office_Holiday)
+            @Html.HiddenFor(model => model.TotalWorkDays)
+            @Html.HiddenFor(model => model.TotalLeave)
+            @Html.HiddenFor(model => model.Loan)
+            @Html.HiddenFor(model => model.Advance)
+            @Html.HiddenFor(model => model.BasicSalary)
+            @Html.HiddenFor(model => model.AllowancSalary)
+            @Html.HiddenFor(model => model.DeductionsSalary)
+            @Html.HiddenFor(model => model.AdvanceSalaryDeduction)
+            @Html.HiddenFor(model => model.Designation)
+            @Html.HiddenFor(model => model.EmployeeId)
+            @Html.HiddenFor(model => model.Employee)
+            @Html.HiddenFor(model => model.UnPaid_Leave)
+            @Html.HiddenFor(model => model.Overtime_day)
+
+
+
+
+            <div class="card-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>
+                                Employee
+                            </td>
+
+                            <td class="salar-for-name">
+                                @Html.DisplayFor(model => model.Employee.Full_Name)  (@Html.DisplayFor(model => model.Employee.EmployeeCode))
+                            </td>
+                        </tr>
+
+                        <tr>
+
+                            <td>
+                                @Html.DisplayNameFor(model => model.Designation)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(model => model.Designation)
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>
+                                @Html.DisplayNameFor(model => model.FromDate)
+                            </td>
+
+                            <td>
+                                @Model.FromDate.ToString("dd-MMM-yyyy")
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>
+                                @Html.DisplayNameFor(model => model.ToDate)
+                            </td>
+
+                            <td>
+                                @Model.ToDate.ToString("dd-MMM-yyyy")
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>
+                                @Html.DisplayNameFor(model => model.SalaryType)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(model => model.SalaryType)
+                            </td>
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                @Html.DisplayNameFor(model => model.Paid_Leave)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(model => model.Paid_Leave)
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>
+                                @Html.DisplayNameFor(model => model.UnPaid_Leave)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(model => model.UnPaid_Leave)
+                            </td>
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+                                @Html.DisplayNameFor(model => model.BasicSalary)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(model => model.BasicSalary)
+                            </td>
+                        </tr>
+
+                        @if (Model.SalaryType == SalaryTypes.Hourly)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.OverTime_Rate) PH
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(model => model.OverTime_Rate) tk.
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Time
+                                </td>
+                                <td>
+                                    <table class="table">
+                                        <thead><tr><th>Title</th><th>Amount</th></tr></thead>
+                                        <tbody>
+                                            <tr><td>Working Hour</td><td> @Html.DisplayFor(model => model.Hourly_Duty.Total_Working_Hour) hours</td></tr>
+                                            <tr><td>Duty Hour</td><td> @Html.DisplayFor(model => model.Hourly_Duty.PayforHour) hours</td></tr>
+                                            <tr><td>Over hour</td><td> @Html.DisplayFor(model => model.Hourly_Duty.Overtime_hour) hours</td></tr>
+                                            <tr><td>RP/h</td><td> @Html.DisplayFor(model => model.Hourly_Duty.RatePerHour) Tk.</td></tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+
+                        }
+                        else
+                        {
+                            <tr><td>Overtime Rate</td><td> @Html.DisplayFor(model => model.OverTime_Rate)</td></tr>
+                            <tr>
+                                <td>
+                                    Time
+                                </td>
+                                <td>
+                                    <table class="table">
+                                        <thead><tr><th>Title</th><th>Amount</th></tr></thead>
+                                        <tbody>
+                                            <tr><td>Working days</td><td> @Html.DisplayFor(model => model.TotalWorkDays)</td></tr>
+                                            <tr><td>Absense</td><td>  @Html.DisplayNameFor(model => model.Absence)</td></tr>
+                                            <tr><td>Presents</td><td>  @Html.DisplayNameFor(model => model.Presents)</td></tr>
+
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @Html.DisplayNameFor(model => model.OverTime_Rate)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(model => model.OverTime_Rate) tk. Per Day
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td>
+                                @Html.DisplayNameFor(model => model.GrossSalary)
+                            </td>
+
+                            <td>
+                                @Html.DisplayFor(model => model.GrossSalary)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                @Html.DisplayNameFor(model => model.Advance)
+                            </td>
+                            <td class="amount-notic">
+                                @Html.DisplayFor(model => model.Advance)
+                            </td>
+                        </tr>
+
+
+
+
+                        <tr>
+                            <td>Allowance</td>
+                            <td>
+                                <table class="table">
+                                    <thead><tr><th>Field</th><th>Amount</th><th>Notes</th></tr></thead>
+                                    <tbody>
+                                        @foreach (var item in Model.AllowancSalary)
+                                        {
+                                            <tr><td>@item.Benifited_Field</td><td>@item.Benifited_Amount</td><td>@item.Notes</td></tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Deduction</td>
+                            <td>
+                                <table class="table">
+                                    <thead><tr><th>Field</th><th>Amount</th><th>Notes</th></tr></thead>
+                                    <tbody>
+                                        @foreach (var item in Model.DeductionsSalary)
+                                        {
+                                            <tr><td>@item.Deduction_Field</td><td>@item.Deducted_Amount</td><td>@item.Notes</td></tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>
+                                @Html.DisplayNameFor(model => model.NetSalary)
+                            </td>
+
+                            <td class="net-amount">
+                                @Html.DisplayFor(model => model.NetSalary)
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <div class="mt-3 mb-3 float-right">
+                        <div class="checkbox">
+                            @Html.LabelFor(model => model.Pay_Full_Month, htmlAttributes: new { @class = "control-label" })  &nbsp;
+                            @Html.EditorFor(model => model.Pay_Full_Month)
+                            @Html.ValidationMessageFor(model => model.Pay_Full_Month, null, new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                @if (Model.Advance > 0)
+                {
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AdvanceSalaryDeduction.Amount, htmlAttributes: new { @class = "control-label" })
+                        @Html.Editor("deductionAmount", new { htmlAttributes = new { @type = "number", @class = "form-control" } })
+                    </div>
+                    <div class="form-group mt-1">
+                        @Html.TextArea("Notes", new { @class = "form-control", @placeholder = "Deduction Notes" })
+                    </div>
+
+                }
+                <input type="submit" value="Confirm" class="btn btn-sm btn-outline-primary" />
+
+            </div>
+
+
+        }
+</page>
+

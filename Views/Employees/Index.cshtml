@@ -1,0 +1,44 @@
+﻿@{ 
+    ViewBag.title = "Employees";
+      
+}
+<div class="card">
+    <div class="card-header">
+           Employees
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="employeeTable" class="display cell-border">
+                <thead>
+                    <tr>
+                        <th>Sl</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Designation</th>
+                        <th>Phone</th>
+                        <th>Joining Date</th>
+                        <th>Leave Date</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+        <div class="card-footer">
+            <a href="@Url.Action("Employee","Employees")" class="btn btn-sm btn-primary loadPartial">Add New</a>
+            <a href="@Url.Action("PrintIds","Employees")" class="btn btn-sm btn-success loadPartial">Print ID Card</a>
+            <a href="@Url.Action("Performance","Salarysheets")" class="btn btn-sm btn-warning loadPartial">Update Performance</a>
+            <a href="@Url.Action("EmpLeaveEntry","Leaves")" class="btn btn-sm btn-danger loadPartial">Leave Entry</a>
+            <a href="@Url.Action("Entry","Attendance")" class="btn btn-sm btn-info loadPartial">Attendance Entry</a>
+        </div>
+    </div>
+
+
+<div id="javascript" data-function="Employeeindex"></div>
+
+
+
+
+
+
+

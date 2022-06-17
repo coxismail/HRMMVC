@@ -1,0 +1,46 @@
+﻿@model IEnumerable<HRMMVC.Models.PermissionViewmOdel>
+@{
+    ViewData["Title"] = "Permission";
+    var user = ViewData["user"] as HRMMVC.Models.ApplicationUser;
+
+}
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header">
+            @ViewData["Title"]  - @user.DisplayName
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+            {
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@user.Id" />
+
+                <table class="table table-bordered" id="permissionTable">
+                    <thead>
+                        <tr>
+                            <th>Sl</th>
+                            <th>Role Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td></td>
+                                <td>@item.RoleName</td>
+                                <td><input type="checkbox" name="RoleId" value="@item.RoleId" checked="@item.IsSelected" /></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="clearfix">
+                    <input type="submit" value="Update Permission" class="btn btn-sm btn-outline-success float-right" />
+                </div>
+            }
+        </div>
+    </div>
+    <div class="card-footer">
+        <a href="/UserManage/" class="loadPartial btn btn-sm btn-secondary">Back</a>
+    </div>
+</div>

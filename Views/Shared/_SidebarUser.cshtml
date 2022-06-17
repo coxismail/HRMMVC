@@ -1,0 +1,252 @@
+﻿@using HRMMVC.Models;
+<input type="checkbox" id="sidebar-toggle">
+<div class="sidebar">
+    <div class="sidebar-header">
+        <h4 class="sidebar-user-name"><span class="fa fa-user-circle"> </span> <span>@User.Identity.DisplayName()</span>	</h4>
+        <label for="sidebar-toggle"><i class="fa fa-bars"></i></label>
+    </div>
+    <div class="sidebar-menu">
+        <ul class="menu">
+            <li class="menu-item">
+                <a href="/" class="">
+                    <span class="svg-icon">  <img src="~/Assets/Images/home.svg" />   </span>  <span>       Home   </span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/Accounting/" class="loadPartial">
+                    <span class="svg-icon"><img src="~/assets/images/accounting.svg" alt="Accounting" /> </span>
+                    <span>
+                        Accounting
+                    </span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="loadPartial">
+                    <span class="svg-icon"><img src="~/Assets/Images/employee.svg" /></span>
+                    <span>
+                        Employee
+                    </span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="sub-menu-item">
+                        <a href="/Employees/index" class="loadPartial">
+                            <span class="fa fa-bars"></span>
+                            <span>Employees</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/Employees/Employee" class="loadPartial">
+                            <span class="fa fa-user-plus"></span>
+                            <span>New Employee</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/Employees/PrintIds" class="loadPartial">
+                            <span class="fa fa-id-card"></span>
+                            <span>Print Id Card</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/Employees/Resignation" class="loadPartial">
+                            <span class="fa fa-user-times"></span>
+                            <span>Resignation</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="loadPartial" title="Intermediate Firearm Skills Training">
+                    <span class="svg-icon">
+                        <img src="~/Assets/Images/leave.svg" />
+                    </span>
+                    <span>
+                        Leave & Holiday
+                    </span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="sub-menu-item">
+                        <a href="/Leaves/Index" class="loadPartial">
+                            <span class="fa fa-bars"></span>
+                            <span>Leave history</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/Leaves/EmpLeaveEntry" class="loadPartial">
+                            <span class="fa fa-plus"></span>
+                            <span>Leave Entry</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/Leaves/AllHoliDays" class="loadPartial">
+                            <span class="fa fa-glass"></span>
+                            <span>Holi Days</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/Leaves/HoliDays" class="loadPartial">
+                            <span class="fa fa-power-off"></span>
+                            <span>+Holi Day</span>
+                        </a>
+                    </li>
+
+
+                </ul>
+
+            </li>
+            <li class="menu-item">
+                <a href="/Attendance/Entry" class="loadPartial">
+                    <span class="svg-icon">  <img src="~/Assets/Images/attendance.svg" />   </span>
+                    <span>
+                        Attendances
+                    </span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="loadPartial">
+                    <span class="svg-icon">
+                        <img src="~/Assets/Images/settings.svg" />
+                    </span>
+
+                    <span>
+                        Settings
+                    </span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="sub-menu-item">
+                        <a href="/setup/Company" class="loadPartial">
+                            <span class="fa fa-sitemap"></span>
+                            <span>Company</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/setup/" class="loadPartial">
+                            <span class="fa fa-meetup"></span>
+                            <span>Basic</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/Setting/Other" class="loadPartial">
+                            <span class="fa fa-assistive-listening-systems"></span>
+                            <span>System</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/UserManage/" class="loadPartial">
+                            <span class="fa fa-users"></span>
+                            <span>Users</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/setup/Performance" class="loadPartial">
+                            <span class="fa fa-signal"></span>
+                            <span>Performance</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/Leaves/LeaveType?id=0" class="loadPartial">
+                            <span class="fa fa-pagelines"></span>
+                            <span>Leave Type</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="loadPartial">
+                    <span class="svg-icon"> <img src="~/Assets/Images/payslip.svg" /></span>
+                    <span>
+                        Salary & Payslip
+                    </span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="sub-menu-item">
+                        <a href="/Salarysheets/newPayslip" class="loadPartial">
+                            <span class="fa fa-paypal"></span>
+                            <span>New Payslip </span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/Salarysheets/index" class="loadPartial">
+                            <span class="fa fa-pause"></span>
+                            <span>Pending Payslip </span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/Salarysheets/PreviousSheet" class="loadPartial">
+                            <span class="fa fa-step-backward"></span>
+                            <span>Previous Sheets</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/Payrolls/index" title="Payrolls" class="loadPartial">
+                            <span class="fa fa-life-bouy"></span>
+                            <span>Payrolls</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/Salarysheets/Performance" title="Update Performance" class="loadPartial">
+                            <span class="fa fa-signal"></span>
+                            <span>Performance</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/Salarysheets/Advance_Salary" title="Advance Salary" class="loadPartial">
+                            <span class="fa fa-chain-broken"></span>
+                            <span>Advance Salary</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="menu-item">
+                <a href="#" class="loadPartial">
+                    <span class="svg-icon"> <img src="~/Assets/Images/logs.svg" /></span>
+                    <span>
+                        Logs
+                    </span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="sub-menu-item">
+                        <a href="/setting/Activity_log" class="loadPartial">
+                            <span class="fa fa-list-alt"></span>
+                            <span>Activity</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/SalarySheets/Advance_History" class="loadPartial">
+                            <span class="fa fa-list-alt"></span>
+                            <span>Advance History</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu-item">
+                        <a href="/Setting/Login_History" class="loadPartial">
+                            <span class="fa fa-list-alt"></span>
+                            <span>login history</span>
+                        </a>
+                    </li>
+
+
+                </ul>
+            </li>
+
+
+            <li class="menu-item">
+                <a href="/careerin/" class="loadPartial">
+                    <span class="svg-icon"><img src="~/Assets/Images/career.svg" /></span>
+                    <span>
+                        Career
+                    </span>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="/HRM/Information" class="loadPartial">
+                    <span class="svg-icon"><img src="~/assets/images/info.svg" alt="info" /> </span>
+                    <span>
+                        Info
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

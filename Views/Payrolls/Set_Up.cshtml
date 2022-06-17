@@ -1,0 +1,107 @@
+﻿@model HRMMVC.Models.Payroll
+    @using HRMMVC.Models;
+@{
+    ViewBag.title = "Update Payroll";
+}
+
+
+<div class="col-md-8 ">
+    <div class="card">
+        <div class="card-header">
+            New Payrolls
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+            {
+
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row justify-content-md-between align-items-baseline">
+                    <div class="col-md-8">
+                        @Html.LabelFor(model => model.EmployeeId, "Employee", htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownList("EmployeeId", null, "Select Employee", htmlAttributes: new { @class = "form-control chosen_select" })
+                        @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.SalaryType, "Salary Type", htmlAttributes: new { @class = "control-label" })
+                        @Html.EnumDropDownListFor(m => m.SalaryType, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="row justify-content-md-between align-items-center">
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.Basic_Salary, htmlAttributes: new { @class = "control-label" })
+                        <div class="c-input-group">
+                            <span class="icon fa fa-money"></span>
+                            @Html.EditorFor(model => model.Basic_Salary, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Basic_Salary, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        @Html.LabelFor(model => model.Over_Time_Rate, htmlAttributes: new { @class = "control-label" })
+                        <div class="c-input-group">
+                            <span class="icon fa fa-money"></span>
+                            @Html.EditorFor(model => model.Over_Time_Rate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Over_Time_Rate, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 align-items-end">
+                        <div class="checkbox">
+                            @Html.CheckBoxFor(model => model.SameAsBasic, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.LabelFor(f => f.SameAsBasic, "Same as Basic Salary", htmlAttributes: new { @class = "control-label" })
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label" })
+                    @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="c-input-group justify-content-between">
+                    @Html.DropDownList("AllowenceId", null, "--Select Allowence--", htmlAttributes: new { @class = "form-control col-4" })
+                    <input type="number" class="form-control col-3" id="amount" placeholder="Amount" />
+                    @Html.DropDownList("AlPercent", EnumHelper.GetSelectList(typeof(PecentOf)), "% of", new { @class="form-control"} )
+                    <button type="button" id="add_allowence" class="btn btn-sm btn-info">+Add</button>
+                </div>
+
+                <table class="table" id="allowence_table">
+                    <caption>Allowance</caption>
+                    <tbody>
+                    </tbody>
+
+                </table>
+
+
+                <div class="divider"></div>
+
+                <div class="c-input-group justify-content-between">
+                    @Html.DropDownList("DeductionId", null, "--Select Deduction--", htmlAttributes: new { @class = "form-control col-4" })
+                    <input type="number" class="form-control col-3" id="damount" placeholder="Amount" />
+                    @Html.DropDownList("ddPercent", EnumHelper.GetSelectList(typeof(PecentOf)), "% of", new { @class = "form-control" })
+                    <button type="button" id="add_deduction" class="btn btn-sm btn-warning">+Add</button>
+                </div>
+                <hr />
+                <table class="table" id="deduction_table">
+                    <caption>Deduction</caption>
+                    <tbody>
+                    </tbody>
+
+                </table>
+                <div class="clearfix mt-5">
+                    <input type="submit" value="Save " class="btn btn-outline-success float-right" />
+                </div>
+
+            }
+        </div>
+
+
+        <div class="card-footer">
+            <a href="/payrolls/index" class="loadPartial btn btn-secondary">Back</a>
+        </div>
+    </div>
+  </div>
+<div id="javascript" data-function="PayrollSetup"></div>
+

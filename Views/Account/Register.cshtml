@@ -1,0 +1,101 @@
+﻿@model HRMMVC.Models.RegisterViewModel
+@using CaptchaMvc.HtmlHelpers
+@using HRMMVC.Models;
+@{
+    ViewBag.Title = "Register";
+    List<SelectListItem> timl = new List<SelectListItem>();
+    var time = TimeZoneInfo.GetSystemTimeZones();
+    foreach (var item in time)
+    {
+        var t = new SelectListItem()
+        {
+            Text = item.DisplayName,
+            Value = item.Id,
+        };
+        if (item.Id == User.Identity.TimeZone().Id)
+        {
+            t.Selected = true;
+        }
+        timl.Add(t);
+    }
+}
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-header">
+            Add System User
+        </div>
+        <div class="card-body">
+
+
+
+            @using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                <div class="login_row">
+                    @Html.LabelFor(m => m.DisplayName, new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-user"></span>
+                        @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control", @placeholder = "Your Full Name" })
+                    </div>
+                </div>
+                <div class="login_row">
+                    @Html.LabelFor(m => m.PhoneNumber, new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-phone"></span>
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @placeholder = "0198xxxxx" })
+                    </div>
+                </div>
+                <div class="login_row">
+                    @Html.LabelFor(m => m.TimeZoneId, new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-address-book"></span>
+                        @Html.DropDownListFor(m => m.TimeZoneId, timl , new { @class = "form-control", @placeholder = "Your street adress" })
+                    </div>
+                </div>
+                <div class="login_row">
+                    @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-user-circle"></span>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "eg: yourname@mail.com", @autocomplete = "off" })
+                    </div>
+                </div>
+                <div class="login_row">
+                    @Html.LabelFor(m => m.Address, new { @class = "control-label" })
+                    <div class="c-input-group">
+                        <span class="icon fa fa-address-book"></span>
+                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @placeholder = "Your street adress" })
+                    </div>
+                </div>
+                <div class="d-md-flex justify-content-md-between">
+                    <div class="login_row">
+                        @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                        <div class="c-input-group">
+                            <span class="icon fa fa-key"></span>
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "*******" })
+                        </div>
+                    </div>
+                    <div class="login_row">
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label" })
+                        <div class="c-input-group">
+                            <span class="icon fa fa-key"></span>
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = "********" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="login_row">
+                    @Html.Captcha("Refresh", "Enter the text shown in image", 5, "Captcha field is requried", true)
+                </div>
+                <div class="clearfix">
+                    <input type="submit" class="btn btn-sm btn-outline-warning float-right" value="Register Now" />
+                </div>
+            }
+
+        </div>
+
+        <div class="card-footer">
+            <a href="/userManage/" class="loadPartial btn btn-sm btn-secondary">Back</a>
+        </div>
+    </div>
+</div>

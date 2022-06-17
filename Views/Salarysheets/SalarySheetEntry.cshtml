@@ -1,0 +1,484 @@
+﻿@model HRMMVC.Models.Salarysheet
+
+@section Styles{
+    <style>
+        .comon_section .input-group:hover {
+            border: 1px solid;
+        }
+
+        .comon_section .input-group-prepend {
+            background-color: antiquewhite;
+            padding: 3px 10px;
+            border: 0px;
+            width: 50%;
+        }
+
+        .loaderarea {
+            position: fixed;
+            width: 100%;
+            right: 0px;
+            height: 500px;
+            top: 110px;
+            background-color: black;
+            opacity: .5;
+            margin: 0px auto;
+        }
+
+        .loader {
+            position: relative;
+            margin: 0;
+            top: 40%;
+            left: 45%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            border: 8px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 8px solid black !important;
+            width: 60px;
+            height: 60px;
+            -webkit-animation: spin 2s linear infinite; /* Safari */
+            animation: spin 2s linear infinite;
+            z-index: -1;
+        }
+
+        /* Safari */
+        @@-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(360deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(0deg);
+            }
+        }
+
+        @@keyframes spin {
+            0% {
+                transform: rotate(360deg);
+            }
+
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+    </style>
+
+}
+
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new { @class = "ajaxform" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="card">
+        <div class="card-header">
+            Create Salarysheet
+        </div>
+        <div class="card-body">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row pt-1 pb-2 bg-light-blue-gradient">
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        @Html.DropDownList("EmployeeId", null, "Select Employee", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.EmployeeId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            @Html.Label("Select Month", htmlAttributes: new { @class = "control-label" }) &nbsp; &nbsp;
+                        </div>
+                        @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { @type = "Month", @class = "form-control", @min = "2020-01", @max = "2030-12" } })
+                        @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12 col-sm-6">
+                    <div class="comon_section">
+                        <div class="input-group">
+                            <div class="input-group-prepend" style="width:50%;">
+                                @Html.LabelFor(model => model.TotalWorkDays, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            @Html.EditorFor(model => model.TotalWorkDays, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.TotalWorkDays, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend" style="width:50%;">
+                                @Html.LabelFor(model => model.Absence, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            @Html.EditorFor(model => model.Absence, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Absence, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend" style="width:50%;">
+                                @Html.LabelFor(model => model.Presents, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            @Html.EditorFor(model => model.Presents, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Presents, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend" style="width:50%;">
+                                @Html.LabelFor(model => model.Office_Holiday, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            @Html.EditorFor(model => model.Office_Holiday, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.Office_Holiday, "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend" style="width:50%;">
+
+                                @Html.LabelFor(model => model.Paid_Leave, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            @Html.EditorFor(model => model.Paid_Leave, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Paid_Leave, "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend" style="width:50%;">
+
+                                @Html.LabelFor(model => model.UnPaid_Leave, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            @Html.EditorFor(model => model.UnPaid_Leave, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.UnPaid_Leave, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend" style="width:50%;">
+
+                                @Html.Label("Total Leave", htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            @Html.Editor("TotalLeave", new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            @Html.ValidationMessage("TotalLeave", "", new { @class = "text-danger" })
+
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend" style="width:50%;">
+
+                                @Html.LabelFor(model => model.BasicSalary, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            @Html.EditorFor(model => model.BasicSalary, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.BasicSalary, "", new { @class = "text-danger" })
+
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                @Html.LabelFor(model => model.Loan, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            @Html.EditorFor(model => model.Loan, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "loan" } })
+                            @Html.ValidationMessageFor(model => model.Loan, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                @Html.LabelFor(model => model.Advance, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            @Html.EditorFor(model => model.Advance, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "advance_salary" } })
+                            @Html.ValidationMessageFor(model => model.Advance, "", new { @class = "text-danger" })
+                        </div>
+                        <p id="deduction_notes"></p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="comon_section">
+                        <div class="input-group">
+                            <div class="input-group-prepend"> @Html.LabelFor(model => model.Pay_Full_Month, htmlAttributes: new { @class = "control-label" })</div>
+                            <div class="checkbox pl-5 pt-1">
+                                @Html.EditorFor(model => model.Pay_Full_Month, new { htmlAttributes = new { @id = "Pay_Full_Month", @class = "form-control" } })
+                            </div>
+                        </div>
+
+                        @Html.Hidden("Emptype")
+                        <div class="hourly_section">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    @Html.LabelFor(model => model.Hourly_Duty.Total_Working_Hour, htmlAttributes: new { @class = "control-label" })
+                                </div>
+
+                                @Html.EditorFor(model => model.Hourly_Duty.Total_Working_Hour, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "TotalWorkingHour" } })
+                                @Html.ValidationMessageFor(model => model.Hourly_Duty.Total_Working_Hour, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    @Html.LabelFor(model => model.Hourly_Duty.PayforHour, htmlAttributes: new { @class = "control-label" })
+                                </div>
+
+                                @Html.EditorFor(model => model.Hourly_Duty.PayforHour, new { htmlAttributes = new { @id = "payforhour", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Hourly_Duty.PayforHour, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    @Html.LabelFor(model => model.Hourly_Duty.Overtime_hour, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                @Html.EditorFor(model => model.Hourly_Duty.Overtime_hour, new { htmlAttributes = new { @id = "Overtime_hour", @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Hourly_Duty.Overtime_hour, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    @Html.LabelFor(model => model.Hourly_Duty.RatePerHour, htmlAttributes: new { @class = "control-label" })
+                                </div>
+                                @Html.EditorFor(model => model.Hourly_Duty.RatePerHour, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @id = "RatePerHour" } })
+                                @Html.ValidationMessageFor(model => model.Hourly_Duty.RatePerHour, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                @Html.LabelFor(model => model.Deduction_History.Amount, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            @Html.EditorFor(model => model.Deduction_History.Amount, new { htmlAttributes = new { @class = "form-control", @id = "d_amount" } })
+
+                            @Html.ValidationMessageFor(model => model.Deduction_History.Amount, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                @Html.LabelFor(model => model.Deduction_History.Notes, htmlAttributes: new { @class = "control-label" })
+                            </div>
+                            @Html.EditorFor(model => model.Deduction_History.Notes, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Deduction_History.Notes, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                @Html.LabelFor(model => model.NetSalary, htmlAttributes: new { @class = "control-label" })
+                        </div>
+                        @Html.EditorFor(model => model.NetSalary, new { htmlAttributes = new { @readonly = "readonly", @class = "form-control" } })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card-footer">
+        <input type="submit" value="Create" class="btn btn-success right createbtn" />
+        @Html.ActionLink("Back to List", "Index")
+    </div>
+</div>
+
+}
+
+
+
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $(".hourly_section").css('display', 'none');
+            $("#FromDate").change(function () {
+                loadEmpData();
+
+            });
+            $("#EmployeeId").change(function () {
+                var da = $.trim($("#FromDate").val());
+                if (da != null && da != "") {
+
+                    window.location.reload();
+                }
+            })
+
+
+            $(".comon_section").mouseover(function () {
+                LeaveCalculate();
+                var type = $("#Emptype").val();
+                if (type == "Hourly") {
+                    CalculateHourly();
+                }
+                else {
+                    CalculateMonthly();
+                }
+
+            })
+            function loadEmpData() {
+                var eId = $("#EmployeeId").children('option:selected').val();
+                if (eId == "") {
+                    alert("Please Select Employee First");
+                }
+                else {
+                    GetEmpPres();
+                    CalculateHourly();
+                }
+            }
+
+            function GetEmpPres() {
+                var eId = $("#EmployeeId").children('option:selected').val();
+                var smonth = $("#FromDate").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Salarysheets/LoadEmpData",
+                    contentType: "application/json; charset=utf-8",
+                    cache: false,
+                    data: JSON.stringify({ 'eId': eId, 'smonth': smonth }),
+                    beforeSend: function () {
+                        $('.card-body').append("<div class='loaderarea'><div class='loader'></div ></div>");
+                    },
+                    success: function (data) {
+                        if (data != null) {
+                            $(".hourly_section").css('display', 'none');
+                            $("#TotalDutyHour").val(data.mad);
+                            $("#Presents").val(data.P);
+                            $("#BasicSalary").val(data.BS);
+                            $("#TotalLeave").val("");
+                            $("#Paid_Leave").val(data.Leave);
+                            $("#Absence").val(data.Abs);
+                            $("#Office_Holiday").val(data.Officeleave);
+                            $("#TotalWorkDays").val(data.Work);
+                            $("#advance_salary").val(data.As);
+                            $("#loan").val(data.lo);
+                            $("#deduction_notes").text(data.dn);
+
+
+
+
+                            $("#NetSalary").val(0);
+                            if (data.type == "Hourly") {
+                                $(".hourly_section").slideDown();
+                                $("#TotalWorkingHour").val(data.wh);
+                                $("#RatePerHour").val(data.Hr);
+                                $("#Emptype").val("Hourly");
+                            }
+                            console.log(data);
+                        }
+                        $('.loaderarea').css("display", "none");
+                    },
+                    error: function (ex) {
+                        alert(ex.statusText);
+                    }
+                });
+            }
+
+            function LeaveCalculate() {
+                setDefaultValue();
+                var present = parseInt($("#Presents").val());
+                var paidLeave = parseInt($("#Paid_Leave").val());
+                var Officeholiday = parseInt($("#Office_Holiday").val());
+                var UnpaidLeave = parseInt($("#UnPaid_Leave").val());
+                var Absense = parseInt($("#Absence").val());
+                var totalworkday = parseInt($("#TotalWorkDays").val());
+                var tl = paidLeave + Officeholiday + UnpaidLeave;
+                $("#TotalLeave").val(tl);
+                var TotalLeave = parseInt($("#TotalLeave").val());
+                if ((TotalLeave + Absense + present) > totalworkday) {
+                    alert("Calculation of Day is not correct");
+                    $("#TotalLeave").val(0);
+                    $("#Presents").val(0);
+                    //  $("#payforhour").val(0);
+                }
+            }
+
+            function CalculateHourly() {
+                setDefaultValue();
+                if (isNaN($("#RatePerHour").val()) || $.trim($("#RatePerHour").val()) == "") {
+                    $("#RatePerHour").val(0);
+                }
+                if (isNaN($("#payforhour").val()) || $.trim($("#payforhour").val()) == "") {
+                    $("#payforhour").val(0);
+                }
+                var overTime = parseFloat($("#Overtime_hour").val());
+                var Basic_Salary_full = parseFloat($("#BasicSalary").val());
+                var rateperhour = parseFloat($("#RatePerHour").val());
+                var Payforhour = parseFloat($("#payforhour").val());
+                var deduction = parseInt($("#d_amount").val());
+                var advance = parseInt($("#advance_salary").val());
+                if (advance < deduction) {
+                    alert("Deduction must be less than net payable salary");
+                    $("#d_amount").val(0);
+                }
+                var over = (rateperhour * overTime);
+                var Gross_Income = (Payforhour * rateperhour);
+                var ifPayFull = $('input[type="checkbox"][id="PayFullMonth"]').is(":checked");
+                if (ifPayFull) {
+                    var netSalary = (over + Basic_Salary_full);
+                    $("#NetSalary").val(parseInt(netSalary));
+                }
+                else {
+
+                    var netSalary = (over + Gross_Income);
+                    $("#NetSalary").val(parseInt(netSalary));
+
+                }
+            }
+            function CalculateMonthly() {
+                setDefaultValue();
+
+                var Basic_full = parseFloat($("#BasicSalary").val());
+                var WorkedDays = parseInt($("#Presents").val());
+                var leaveDays = parseInt($("#Paid_Leave").val());
+                var totalworkday = parseInt($("#TotalWorkDays").val());
+                var dailyRate = (Basic_full / totalworkday);
+                var GroxSalary = (dailyRate * (leaveDays + WorkedDays));
+
+                var deduction = parseInt($("#d_amount").val());
+                var advance = parseInt($("#advance_salary").val());
+                //  var totals = parseFloat(over+Basic+bonus+special+Medical);
+                if (advance < deduction) {
+                    alert("Deduction must be less than net payable salary");
+                    $("#d_amount").val(0);
+                }
+                var ifPayFull = $('input[type="checkbox"][id="Pay_Full_Month"]').is(":checked");
+                if (ifPayFull) {
+                    var netSalary = (Basic_full);
+                    $("#NetSalary").val(parseInt(netSalary));
+                }
+                else {
+
+                    var netSalary = (GroxSalary);
+                    $("#NetSalary").val(parseInt(netSalary));
+
+                }
+            }
+
+            function setDefaultValue() {
+                var NetSalary = 0;
+                var tleave = 0;
+                $("#TotalLeave").val(tleave);
+                if (isNaN($("#Paid_Leave").val()) || $.trim($("#Paid_Leave").val()) == "") {
+                    $("#Paid_Leave").val(0);
+                }
+                if (isNaN($("#UnPaid_Leave").val()) || $.trim($("#UnPaid_Leave").val()) == "") {
+                    $("#UnPaid_Leave").val(0);
+                }
+                if (isNaN($("#Absence").val()) || $.trim($("#Absence").val()) == "") {
+                    $("#Absence").val(0);
+                }
+                if (isNaN($("#TotalWorkingHour").val()) || $.trim($("#TotalWorkingHour").val()) == "") {
+                    $("#TotalWorkingHour").val(0);
+                }
+                if (isNaN($("#Overtime_hour").val()) || $.trim($("#Overtime_hour").val()) == "") {
+                    $("#Overtime_hour").val(0);
+                }
+                $("#NetSalary").val(NetSalary)
+                if (isNaN($("#Presents").val()) || $.trim($("#Presents").val()) == "") {
+                    $("#Presents").val(0);
+                }
+
+                if (isNaN($("#Office_Holiday").val()) || $.trim($("#Office_Holiday").val()) == "") {
+                    $("#Office_Holiday").val(0);
+                }
+                if (isNaN($("#TotalWorkDays").val()) || $.trim($("#TotalWorkDays").val()) == "") {
+                    $("#TotalWorkDays").val(0);
+                }
+
+            }
+
+
+            var config = {
+                '.chosen-select-deselect': { allow_single_deselect: true },
+                '.chosen-select-no-single': { disable_search_threshold: 10 },
+                '.chosen-select-no-results': { no_results_text: 'Oops, nothing found!' },
+                '.chosen-select-rtl': { rtl: true },
+                '.chosen-select-width': { width: '95%' }
+            }
+            for (var selector in config) {
+                $('#EmployeeId').chosen(config['#EmployeeId']);
+            }
+
+        });
+    </script>
+}

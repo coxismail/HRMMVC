@@ -1,0 +1,88 @@
+﻿@model IEnumerable<HRMMVC.Models.Employee>
+
+@{
+    ViewBag.Title = "Print Id Card";
+     
+}
+
+
+<button type="button" class="btn btn-sm btn-light d-p-none" data-toggle="modal" data-target="#exampleModalCenter">
+    Print Someone
+</button>
+<a href="@Url.Action("PrintIds","Employees")" class="btn btn-sm btn-light loadPartial d-p-none">All</a>
+<page size="A4">
+    @foreach (var item in Model)
+    {
+        <div class="single_card">
+            <div class="a_lign"> </div>
+            <div class="b_lign"></div>
+
+            <div class="main_id_body">
+                <div class="com_logo">
+                    <img src="~/Assets/Images/logo.png" class="id_logo" alt="logo" width="100%" />
+                </div>
+                <div class="emp_images">
+                    <img src="@Url.Content(item.ImageUrl)" alt="" class="emp_img" width="100%" />
+                </div>
+                <h6 class="text-center"> @Html.DisplayFor(modelItem => item.Full_Name)  </h6>
+                <strong>@Html.DisplayFor(modelItem => item.Designation)</strong>
+
+                <table style="font-size: 12px; text-align: left;" class="emp_info_table">
+                    <tr>
+                        <td width="25%">Id No </td>
+                        <td>: @Html.DisplayFor(modelItem => item.EmployeeCode)</td>
+                    </tr>
+                    <tr>
+                        <td width="25%">DoB </td>
+                        <td>: @item.DateOfBirth.ToString("dd-MMM-yyyy")</td>
+                    </tr>
+                    <tr>
+                        <td width="25%">Cell </td>
+                        <td>: @Html.DisplayFor(modelItem => item.Phone)</td>
+                    </tr>
+                    <tr>
+                        <td width="25%">Email </td>
+                        <td>: @Html.DisplayFor(modelItem => item.Email)</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"> <p style="font-size:16px; letter-spacing:5px; line-height: normal;" class="barcode text-center"> @Html.DisplayFor(modelItem => item.EmployeeCode) </p></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" style="font-size:9px; text-align:center;"> Print  :@DateTime.UtcNow.AddHours(6).Date.ToString("dd-MMM-yyyy")</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    }
+
+
+
+</page>
+
+
+
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <form action="/Employees/PrintIds" method="Get">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Check the employee you want</h5>
+                    <button type="" class="close btn btn-sm" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @foreach (var item in Model)
+                    {
+                        <label>@item.Full_Name <input name="Id" type="checkbox" value="@item.Id" /></label>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="Submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
